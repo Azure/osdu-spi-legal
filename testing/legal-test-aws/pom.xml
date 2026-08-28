@@ -20,12 +20,12 @@
     <parent>
         <groupId>org.opengroup.osdu.legal</groupId>
         <artifactId>os-legal-testing</artifactId>
-        <version>0.30.2-SNAPSHOT</version>
+        <version>0.30.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>legal-test-aws</artifactId>
-    <version>0.30.2-SNAPSHOT</version>
+    <version>0.30.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.opengroup.osdu.legal</groupId>
             <artifactId>legal-test-core</artifactId>
-            <version>0.30.2-SNAPSHOT</version>
+            <version>0.30.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu.core.aws</groupId>

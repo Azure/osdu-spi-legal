@@ -18,13 +18,13 @@
     <parent>
         <artifactId>legal-service</artifactId>
         <groupId>org.opengroup.osdu.legal</groupId>
-        <version>0.30.2-SNAPSHOT</version>
+        <version>0.30.3-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>legal-aws</artifactId>
-    <version>0.30.2-SNAPSHOT</version>
+    <version>0.30.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.opengroup.osdu.legal</groupId>
             <artifactId>legal-core</artifactId>
-            <version>0.30.2-SNAPSHOT</version>
+            <version>0.30.3-SNAPSHOT</version>
         </dependency>
         <!-- CVE-2025-58057: legal-core declares lettuce-core ${lettuce.version} (7.5.2), but as a
              transitive into legal-aws the Spring Boot BOM manages it back down to the vulnerable
