@@ -1,0 +1,12 @@
+[{
+  "name": "Malaysia",
+  "alpha2": "MY",
+  "numeric": 458,
+  "residencyRisk": "Client consent required"
+}, {
+  "name": "Azerbaijan",
+  "alpha2": "AZ",
+  "numeric": 31,
+  "residencyRisk": "Client consent required",
+  "typesNotApplyDataResidency": ["Transferred Data"]
+}]

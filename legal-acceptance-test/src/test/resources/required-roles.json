@@ -1,0 +1,9 @@
+{
+  "PRIVILEGED_USER": [
+    "users",
+    "service.entitlements.user",
+    "service.legal.admin",
+    "service.legal.editor",
+    "service.legal.user"
+  ]
+}

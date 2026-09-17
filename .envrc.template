@@ -1,0 +1,40 @@
+##
+# Needed to run the service
+##
+export LOG_PREFIX=
+export legal_service_region=
+export entitlements_service_endpoint=
+export entitlements_service_api_key=
+export LEGAL_HOSTNAME=
+export CRON_JOB_IP=
+export azure.activedirectory.session-stateless=
+export aad_client_id=
+export azure.activedirectory.AppIdUri=
+export cosmosdb_database=
+export storage_account=
+export azure.storage.container-name=
+export azure.storage.enable-https=
+export servicebus_topic_name=
+export servicebus_namespace_name=
+export KEYVAULT_URI=
+export AZURE_CLIENT_ID=
+export AZURE_TENANT_ID=
+export AZURE_CLIENT_SECRET=
+export appinsights_key=
+
+
+
+##
+# Needed to run the integration tests
+##
+export INTEGRATION_TESTER=
+export MY_TENANT=
+export AZURE_TESTER_SERVICEPRINCIPAL_SECRET=
+export AZURE_AD_TENANT_ID=
+export AZURE_AD_APP_RESOURCE_ID=
+export AZURE_LEGAL_STORAGE_ACCOUNT=
+export AZURE_LEGAL_STORAGE_KEY=
+export AZURE_LEGAL_SERVICEBUS=
+export AZURE_LEGAL_TOPICNAME=
+export HOST_URL=
+export ENTITLEMENT_URL=

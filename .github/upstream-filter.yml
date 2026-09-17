@@ -1,0 +1,92 @@
+# Per-service upstream filter config (ADR-038), planted at fork initialization
+# with legal substituted from the upstream repository name.
+# Every upstream top-level entry, testing/ entry, root pom profile, and
+# .fossa.yml module must appear here: the engine halts rather than guess.
+# Entries absent from a given upstream tree are inert, so this file carries the
+# superset of the conventional OSDU service shape. A service that deviates
+# maintains its own copy of this file on the fork's main branch.
+service: legal
+
+top_level:
+  .config: keep
+  .dockerignore: keep
+  .editorconfig: keep
+  .envrc.template: keep
+  .fossa.yml: keep
+  .gitattributes: keep
+  .gitignore: keep
+  .gitlab: strip
+  .gitlab-ci.yml: strip
+  .mvn: keep
+  .sonarlint: keep
+  .trufflehog-exclude: strip
+  LICENSE: keep
+  NOTICE: keep
+  README.md: keep
+  docs: keep
+  pom.xml: keep
+  publish.yml: strip
+  legal-acceptance-test: keep
+  legal-core: keep
+  legal-core-plus: strip
+
+testing:
+  INTEGRATION-TESTS.md: keep
+  README.md: keep
+  maven: keep
+  pom.xml: keep
+  legal-test-core: keep
+  legal-test-azure: fork
+  legal-test-aws: strip
+  legal-test-baremetal: strip
+  legal-test-core-plus: strip
+  legal-test-gc: strip
+  legal-test-gcp: strip
+  legal-test-ibm: strip
+  legal-test-jdbc: strip
+
+profiles:
+  Default: keep
+  core: keep
+  azure: inject
+  aws: strip
+  gc: strip
+  gcp: strip
+  ibm: strip
+
+fossa_modules:
+  legal: keep
+  legal-service: keep
+  legal-core: keep
+  legal-core-plus: strip
+  legal-azure: strip
+  legal-aws: strip
+  legal-gc: strip
+  legal-gcp: strip
+  legal-ibm: strip
+  legal-jdbc: strip
+
+expected_kept:
+  - pom.xml
+  - legal-core
+  - testing/legal-test-core
+
+expected_absent:
+  - provider
+  - devops
+  - legal-core-plus
+  - .gitlab-ci.yml
+  - testing/legal-test-azure
+  - testing/legal-test-aws
+  - testing/legal-test-core-plus
+
+inject_root_pom_azure_profile: |
+      <profile>
+        <id>azure</id>
+        <modules>
+          <module>provider/legal-azure</module>
+        </modules>
+      </profile>
+
+inject_testing_pom_azure_module: |
+      <module>legal-test-azure</module>

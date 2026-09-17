@@ -1,41 +1,46 @@
-# OSDU Azure Service Provider Interface
+# OSDU Legal Service
 
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Azure/osdu-spi/badge)](https://scorecard.dev/viewer/?uri=github.com/Azure/osdu-spi)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+Official documentation is located at [https://osdu.pages.opengroup.org/platform/security-and-compliance/legal/](https://osdu.pages.opengroup.org/platform/security-and-compliance/legal/)
 
-> [!IMPORTANT]
-> This is the central engineering system and platform home that manages all OSDU Azure service implementations. It provides documentation, automated workflows, CI/CD pipelines, and synchronization mechanisms that keep Azure's OSDU services aligned with upstream OSDU standards while enabling Azure-specific interface development.
+## os-legal-azure
 
-## OSDU Repositories
+The steps for running `os-legal-azure` can be found in the [Azure Implementation README.md file](./provider/legal-azure/README.md).
 
-This engineering system manages the following Azure OSDU service implementations:
+## os-legal-aws
 
-### Core Services
+The AWS provider has been removed from this repository.
 
-> Coming soon:
+## os-legal-gcp
 
-- [Partition Service](https://github.com/azure/osdu-spi-partition) - Data partition management and isolation
-- [Entitlements Service](https://github.com/azure/osdu-spi-entitlements) - Access control and permissions
-- [Legal Service](https://github.com/azure/osdu-spi-legal) - Legal tag management and compliance
-- [Schema Service](https://github.com/azure/osdu-spi-schema) - Data model and schema management
-- [File Service](https://github.com/azure/osdu-spi-file) - File storage and retrieval
-- [Storage Service](https://github.com/azure/osdu-spi-storage) - Data persistence and management
-- [Indexer Service](https://github.com/azure/osdu-spi-indexer) - Data indexing pipeline
-- [Search Service](https://github.com/azure/osdu-spi-search) - Elasticsearch integration
+The GCP provider has been moved from this repository to [here](https://community.opengroup.org/osdu/platform/deployment-and-operations/base-containers-gcp/gc-osdu-services).
 
+## Running integration tests
+Integration tests are located in a separate project for each cloud in the ```testing``` directory under the project root directory.
 
-## Contributing
+### Open API 3.0 - Swagger
+- Swagger UI : https://host/context-path/swagger (will redirect to https://host/context-path/swagger-ui/index.html)
+- api-docs (JSON) : https://host/context-path/api-docs
+- api-docs (YAML) : https://host/context-path/api-docs.yaml
 
-Only Microsoft employees can be be contributors for the OSDU SPI services at this time. 
+All the Swagger and OpenAPI related common properties are managed here [swagger.properties](./legal-core/src/main/resources/swagger.properties)
+
+#### Server Url(full path vs relative path) configuration
+- `api.server.fullUrl.enabled=true` It will generate full server url in the OpenAPI swagger
+- `api.server.fullUrl.enabled=false` It will generate only the contextPath only
+- default value is false (Currently only in Azure it is enabled)
+[Reference]:(https://springdoc.org/faq.html#_how_is_server_url_generated) 
 
 ## License
+Copyright 2017-2019, Schlumberger
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at 
 
----
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-<div align="center">
-
-[OSDU Website](https://osduforum.org/) • [Azure OSDU SPI](https://azure.github.io/osdu-spi) • [The Open Group](https://www.opengroup.org/)
-
-</div>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
