@@ -16,15 +16,3 @@ analyze:
       type: mvn
       target: legal-core/pom.xml
       path: .
-    - name: legal-core-plus
-      type: mvn
-      target: legal-core-plus/pom.xml
-      path: .
-    - name: legal-azure
-      type: mvn
-      target: provider/legal-azure/pom.xml
-      path: .
-    - name: legal-ibm
-      type: mvn
-      target: provider/legal-ibm/pom.xml
-      path: .

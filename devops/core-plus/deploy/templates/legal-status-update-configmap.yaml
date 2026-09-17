@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ printf "%s-status-update" .Values.conf.configmap | quote }}
-  namespace: {{ .Release.Namespace | quote }}
-data:
-  LEGAL_HOST: {{ .Values.data.legalHost | quote }}
-  PARTITION_HOST: {{ .Values.data.partitionHost | quote }}
