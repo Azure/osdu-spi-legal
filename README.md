@@ -65,7 +65,7 @@ SPI Stack sets the service's environment from two places: the shared `osdu-confi
 | `AZURE_PAAS_WORKLOADIDENTITY_ISENABLED` | `true` | Authenticate to Azure with workload identity |
 | `PARTITION_SERVICE_ENDPOINT` | `http://partition/api/partition/v1` | Per-partition resource lookup |
 | `ENTITLEMENTS_SERVICE_ENDPOINT` | `http://entitlements/api/entitlements/v2` | Caller authorization |
-| `ENTITLEMENTS_SERVICE_API_KEY` | `OBSOLETE` | Legacy key the service no longer uses; the property has no default, so it must be set |
+| `ENTITLEMENTS_SERVICE_API_KEY` | `OBSOLETE` | Legacy API key passed to the Entitlements client; SPI Stack sets a placeholder, and the property has no default, so it must be set |
 | `COSMOSDB_DATABASE` | `osdu-db` | Database inside each partition's Cosmos DB account |
 | `AZURE_STORAGE_CONTAINER_NAME` | `legal-service-azure-configuration` | Container holding the country configuration |
 | `SERVICEBUS_TOPIC_NAME` | `legaltags` | Topic for legal tag status changes |
