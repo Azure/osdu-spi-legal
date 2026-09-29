@@ -74,7 +74,7 @@ SPI Stack sets the service's environment from two places: the shared `osdu-confi
 | `FEATUREFLAG_LEGALTAGQUERYAPIFREETEXTALLFIELDS_ENABLED` | `true` | See [Service notes](#service-notes) |
 | `JDK_JAVA_OPTIONS` | `--add-opens java.base/java.lang=ALL-UNNAMED` | See [Service notes](#service-notes) |
 
-The service authenticates to Azure with workload identity, which injects `AZURE_CLIENT_ID` and a federated token; there are no client secrets. Per-partition resources (Cosmos DB, Storage, Service Bus) are resolved at request time through the Partition service. The Redis host comes from the Key Vault secret `redis-hostname`, over TLS on port `6380`.
+The service authenticates to Azure with workload identity, which injects `AZURE_CLIENT_ID` and a federated token; there are no client secrets. Per-partition resources (Cosmos DB, Storage, Service Bus) are resolved at request time through the Partition service. The Redis host comes from the Key Vault secret `redis-hostname`, over TLS on port `6380`. `REDIS_HOSTNAME` would override it, but SPI Stack leaves it unset.
 
 ## Test
 
@@ -82,7 +82,7 @@ The service authenticates to Azure with workload identity, which injects `AZURE_
 |---|---|---|---|
 | Unit | `legal-core`, `provider/legal-azure` | Pull requests (Java Build) | `mvn ... install` from [Build](#build) |
 | Acceptance | [`legal-acceptance-test`](legal-acceptance-test/README.md) | Pull requests, against SPI Stack (Deploy and Test) | `spi test legal` |
-| Integration | `testing/legal-test-azure` | No | See below |
+| Integration | `testing/legal-test-azure` | No | Not supported on SPI Stack |
 
 CI runs these on pull requests from this repository that change code. Documentation-only changes skip the build, and pull requests from forks build without deploying.
 
