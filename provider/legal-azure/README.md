@@ -65,6 +65,7 @@ SPI Stack sets the service's environment from two places: the shared `osdu-confi
 | `AZURE_PAAS_WORKLOADIDENTITY_ISENABLED` | `true` | Authenticate to Azure with workload identity |
 | `PARTITION_SERVICE_ENDPOINT` | `http://partition/api/partition/v1` | Per-partition resource lookup |
 | `ENTITLEMENTS_SERVICE_ENDPOINT` | `http://entitlements/api/entitlements/v2` | Caller authorization |
+| `ENTITLEMENTS_SERVICE_API_KEY` | `OBSOLETE` | Legacy key the service no longer uses; the property has no default, so it must be set |
 | `COSMOSDB_DATABASE` | `osdu-db` | Database inside each partition's Cosmos DB account |
 | `AZURE_STORAGE_CONTAINER_NAME` | `legal-service-azure-configuration` | Container holding the country configuration |
 | `SERVICEBUS_TOPIC_NAME` | `legaltags` | Topic for legal tag status changes |
@@ -103,7 +104,7 @@ curl -H "Authorization: Bearer $(spi token)" -H "data-partition-id: <partition>"
 
 ## Deploy
 
-For a pull request from this repository that changes code, CI publishes the service image to GHCR and the Deploy and Test lane borrows an SPI Stack environment, runs the new image there, proves it with the acceptance suite, and restores the environment's own image, so code merged to `main` has already passed on real infrastructure. This repository does not own infrastructure; SPI Stack does.
+For a pull request from this repository that changes code, CI publishes the service image and its test suite image, `osdu-spi-legal-acceptance`, to GHCR, and the Deploy and Test lane borrows an SPI Stack environment, runs the new image there, proves it with the acceptance suite, and restores the environment's own image, so code merged to `main` has already passed on real infrastructure. This repository does not own infrastructure; SPI Stack does.
 
 To try a build by hand on an environment you are connected to, pin it by digest and release the pin when done:
 
