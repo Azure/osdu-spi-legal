@@ -58,21 +58,21 @@ SPI Stack sets the service's environment from two places: the shared `osdu-confi
 
 **Specific to Legal**, from `services/legal.yaml`:
 
-| Variable | Value on SPI Stack | Purpose |
-|---|---|---|
-| `SERVER_SERVLET_CONTEXTPATH` | `/api/legal/v1/` | API base path |
-| `AZURE_ISTIOAUTH_ENABLED` | `true` | Trust the mesh's token validation |
-| `AZURE_PAAS_WORKLOADIDENTITY_ISENABLED` | `true` | Authenticate to Azure with workload identity |
-| `PARTITION_SERVICE_ENDPOINT` | `http://partition/api/partition/v1` | Per-partition resource lookup |
-| `ENTITLEMENTS_SERVICE_ENDPOINT` | `http://entitlements/api/entitlements/v2` | Caller authorization |
-| `ENTITLEMENTS_SERVICE_API_KEY` | `OBSOLETE` | Legacy API key passed to the Entitlements client; SPI Stack sets a placeholder, and the property has no default, so it must be set |
-| `COSMOSDB_DATABASE` | `osdu-db` | Database inside each partition's Cosmos DB account |
-| `AZURE_STORAGE_CONTAINER_NAME` | `legal-service-azure-configuration` | Container holding the country configuration |
-| `SERVICEBUS_TOPIC_NAME` | `legaltags` | Topic for legal tag status changes |
-| `LEGAL_SERVICE_REGION` | `us` | Region used in country validation |
-| `REDIS_DATABASE` | `2` | Redis database index reserved for Legal |
-| `FEATUREFLAG_LEGALTAGQUERYAPIFREETEXTALLFIELDS_ENABLED` | `true` | See [Service notes](#service-notes) |
-| `JDK_JAVA_OPTIONS` | `--add-opens java.base/java.lang=ALL-UNNAMED` | See [Service notes](#service-notes) |
+| Variable and value on SPI Stack | Purpose |
+|---|---|
+| `SERVER_SERVLET_CONTEXTPATH`<br>`/api/legal/v1/` | API base path |
+| `AZURE_ISTIOAUTH_ENABLED`<br>`true` | Trust the mesh's token validation |
+| `AZURE_PAAS_WORKLOADIDENTITY_ISENABLED`<br>`true` | Authenticate to Azure with workload identity |
+| `PARTITION_SERVICE_ENDPOINT`<br>`http://partition/api/partition/v1` | Per-partition resource lookup |
+| `ENTITLEMENTS_SERVICE_ENDPOINT`<br>`http://entitlements/api/entitlements/v2` | Caller authorization |
+| `ENTITLEMENTS_SERVICE_API_KEY`<br>`OBSOLETE` | Legacy key passed to the Entitlements client; the property has no default, so the placeholder must stay set |
+| `COSMOSDB_DATABASE`<br>`osdu-db` | Database inside each partition's Cosmos DB account |
+| `AZURE_STORAGE_CONTAINER_NAME`<br>`legal-service-azure-configuration` | Container holding the country configuration |
+| `SERVICEBUS_TOPIC_NAME`<br>`legaltags` | Topic for legal tag status changes |
+| `LEGAL_SERVICE_REGION`<br>`us` | Region used in country validation |
+| `REDIS_DATABASE`<br>`2` | Redis database index reserved for Legal |
+| `FEATUREFLAG_LEGALTAGQUERYAPIFREETEXTALLFIELDS_ENABLED`<br>`true` | See [Service notes](#service-notes) |
+| `JDK_JAVA_OPTIONS`<br>`--add-opens java.base/java.lang=ALL-UNNAMED` | See [Service notes](#service-notes) |
 
 The service authenticates to Azure with workload identity, which injects `AZURE_CLIENT_ID` and a federated token; there are no client secrets. Per-partition resources (Cosmos DB, Storage, Service Bus) are resolved at request time through the Partition service. The Redis host comes from the Key Vault secret `redis-hostname`, over TLS on port `6380`. `REDIS_HOSTNAME` would override it, but SPI Stack leaves it unset.
 
