@@ -16,9 +16,11 @@ package org.opengroup.osdu.legal.acceptanceTests;
 
 import static junit.framework.TestCase.assertTrue;
 
+import com.google.common.base.Strings;
 import com.microsoft.azure.servicebus.IMessage;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.opengroup.osdu.legal.util.AzureLegalTagUtils;
@@ -55,6 +57,8 @@ public class TestDeleteLegalTagApiAcceptance extends DeleteLegalTagApiAcceptance
     
     @Test
     public void should_receiveSubscriptionMessage_when_deletingAContractThatDoesExist() throws Exception {
+        Assume.assumeFalse("AZURE_LEGAL_SERVICEBUS is not set",
+            Strings.isNullOrEmpty(AzureLegalTagUtils.getAzureServiceBusConnectionString()));
         String subscriptionName = "compliance-change--integration-test";
 
         //clear out topic queue before test
