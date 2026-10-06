@@ -13,3 +13,12 @@ tests:
       DATA_PARTITION_ID: { source: partition }
       PRIVILEGED_USER_TOKEN: { source: token }
       EXPOSE_FEATUREFLAG_ENABLED: { source: static, value: "true" }
+  integration:
+    type: maven
+    path: testing
+    mavenArguments: [-pl, legal-test-azure, -am, test]
+    timeoutMinutes: 20
+    bindings:
+      HOST_URL: { source: gateway, suffix: /api/legal/v1/ }
+      MY_TENANT: { source: partition }
+      INTEGRATION_TESTER_ACCESS_TOKEN: { source: token }
