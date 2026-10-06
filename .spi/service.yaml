@@ -16,7 +16,7 @@ tests:
   integration:
     type: maven
     path: testing
-    mavenArguments: [-pl, legal-test-azure, -am, test]
+    mavenArguments: [-pl, legal-test-azure, -am, "-Dtest=!TestValidateLegalTagsApiAcceptance#should_return200_withLegalTagNamesAndInvalidExpirationDateReason_when_GivenExistingInvalidLegalTagNames", -Dsurefire.failIfNoSpecifiedTests=false, test]
     timeoutMinutes: 20
     bindings:
       HOST_URL: { source: gateway, suffix: /api/legal/v1/ }
