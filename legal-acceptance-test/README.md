@@ -1,11 +1,11 @@
 # Legal acceptance tests
 
-End-to-end acceptance tests for the OSDU Legal service. They run with JUnit 5 and depend on [`os-core-test`](https://community.opengroup.org/osdu/platform/system/lib/core/os-core-test) (`0.1.6`) for service URLs, authentication, HTTP clients, and entitlements role checks.
+End-to-end acceptance tests for the OSDU Legal service. They run with JUnit 5 and depend on [`os-core-test`](https://community.opengroup.org/osdu/platform/system/lib/core/os-core-test) (`1.1.0`) for service URLs, authentication, HTTP clients, and entitlements role checks.
 
 ## Requirements
 
-- Java 17
-- Maven 3.8 or newer
+- Java 25
+- Maven 3.9.16 or newer
 - Access to an OSDU deployment with the Legal service enabled
 - OpenID Connect client credentials or a bearer token for `PRIVILEGED_USER`
 
