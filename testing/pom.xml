@@ -18,10 +18,11 @@
 	<modelVersion>4.0.0</modelVersion>
   <groupId>org.opengroup.osdu.legal</groupId>
   <artifactId>os-legal-testing</artifactId>
-  <version>0.31.0-SNAPSHOT</version>
+  <version>${revision}</version>
 	<description>Root Legal Service project</description>
 	<packaging>pom</packaging>
     <properties>
+        <revision>0.31.0-SNAPSHOT</revision>
         <java.version>17</java.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <!-- Pin core test deps once here so CSP testing modules don't drift -->
@@ -119,6 +120,31 @@
                 </requireSameVersions>
               </rules>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>1.8.0</version>
+        <configuration>
+          <updatePomFile>true</updatePomFile>
+          <flattenMode>resolveCiFriendliesOnly</flattenMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
