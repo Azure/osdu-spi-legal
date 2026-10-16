@@ -20,7 +20,7 @@ package org.opengroup.osdu.legal.middleware;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.opengroup.osdu.core.common.model.http.AppException;
-import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

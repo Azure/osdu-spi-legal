@@ -54,7 +54,7 @@ public class GlobalExceptionMapperTests {
 		AppException exception = new AppException(409, "any reason", "any message");
 
 		ResponseEntity<Object> response = sut.handleAppException(exception);
-		assertEquals(409, response.getStatusCodeValue());
+		assertEquals(409, response.getStatusCode().value());
 		// assertEquals(MediaType.APPLICATION_JSON,
 		// response.getHeaders().getContentType().toString());
 		AppError expectedError = new AppError(409, "any reason", "any message");
@@ -67,7 +67,7 @@ public class GlobalExceptionMapperTests {
 		AppException exception = new AppException(302, "any reason", "any message");
 
 		ResponseEntity<Object> response = sut.handleAppException(exception);
-		assertEquals(302, response.getStatusCodeValue());
+		assertEquals(302, response.getStatusCode().value());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity<Object> response = sut.handleAppException(exception);
 
-		assertEquals(302, response.getStatusCodeValue());
+		assertEquals(302, response.getStatusCode().value());
 		// assertEquals(MediaType.APPLICATION_JSON,
 		// response.getHeaders().getContentType().toString());
 		// assertEquals("any message", response.getBody());
@@ -88,7 +88,7 @@ public class GlobalExceptionMapperTests {
 
 		NotFoundException exception = new NotFoundException("any message");
 		ResponseEntity<Object> response = sut.handleNotFoundException(exception);
-		assertEquals(404, response.getStatusCodeValue());
+		assertEquals(404, response.getStatusCode().value());
 		// assertEquals(MediaType.APPLICATION_JSON,
 		// response.getHeaders().getContentType().toString());
 		// assertEquals(null, response.getBody().getMessage());
@@ -101,7 +101,7 @@ public class GlobalExceptionMapperTests {
 		HttpRequestMethodNotSupportedException exception = new HttpRequestMethodNotSupportedException("any message");
 		ResponseEntity<Object> response = sut.handleHttpRequestMethodNotSupported(exception, httpHeaders,
 				HttpStatus.METHOD_NOT_ALLOWED, webRequest);
-		assertEquals(405, response.getStatusCodeValue());
+		assertEquals(405, response.getStatusCode().value());
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class GlobalExceptionMapperTests {
 		when(bindingResult.getFieldErrors()).thenReturn(Collections.emptyList());
 		ResponseEntity<Object> response = sut.handleMethodArgumentNotValid(exception, httpHeaders,
 				HttpStatus.BAD_REQUEST, webRequest);
-		assertEquals(400, response.getStatusCodeValue());
+		assertEquals(400, response.getStatusCode().value());
 
 	}
 
@@ -132,7 +132,7 @@ public class GlobalExceptionMapperTests {
 		ResponseEntity<Object> response = sut.handleMethodArgumentNotValid(exception, httpHeaders,
 				HttpStatus.BAD_REQUEST, webRequest);
 
-		assertEquals(400, response.getStatusCodeValue());
+		assertEquals(400, response.getStatusCode().value());
 	
 		AppError error = (AppError) response.getBody();
 		assertTrue(error.getMessage().contains("log_injection_before_3773793\\r\\nlog_injection_after_3773793"));
@@ -144,7 +144,7 @@ public class GlobalExceptionMapperTests {
 		Exception exception = new Exception("any message");
 
 		ResponseEntity<Object> response = sut.handleGeneralException(exception);
-		assertEquals(500, response.getStatusCodeValue());
+		assertEquals(500, response.getStatusCode().value());
 		// assertEquals(MediaType.APPLICATION_JSON,
 		// response.getHeaders().getContentType().toString());
 		// assertEquals("An unknown error has occurred.",
@@ -166,7 +166,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity response = sut.handleIOException(ioException);
 
-		assertEquals(org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE, response.getStatusCodeValue());
+		assertEquals(org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE, response.getStatusCode().value());
 	}
 
 	@Test
@@ -176,7 +176,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity response = sut.handleJsonProcessingException(jsonProcessingException);
 
-		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCodeValue());
+		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCode().value());
 	}
 
 	@Test
@@ -186,7 +186,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity response = sut.handleUnrecognizedPropertyException(unrecognizedPropertyException);
 
-		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCodeValue());
+		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCode().value());
 	}
 
 	@Test
@@ -196,7 +196,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity response = sut.handleAccessDeniedException(accessDeniedException);
 
-		assertEquals(org.apache.http.HttpStatus.SC_FORBIDDEN, response.getStatusCodeValue());
+		assertEquals(org.apache.http.HttpStatus.SC_FORBIDDEN, response.getStatusCode().value());
 	}
 
 	@Test
@@ -206,7 +206,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity response = sut.handleValidationException(validationException);
 
-		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCodeValue());
+		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCode().value());
 	}
 
 	@Test
@@ -223,7 +223,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity response = sut.handleConstraintValidationException(constraintViolationException);
 
-		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCodeValue());
+		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCode().value());
 	}
 
 	@Test
@@ -232,7 +232,7 @@ public class GlobalExceptionMapperTests {
 
 		ResponseEntity response = sut.handleConstraintValidationException(constraintViolationException);
 
-		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCodeValue());
+		assertEquals(org.apache.http.HttpStatus.SC_BAD_REQUEST, response.getStatusCode().value());
 	}
 
 }
