@@ -155,7 +155,7 @@
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
       <artifactId>os-oqm-core</artifactId>
-      <version>0.25.0-rc1</version>
+      <version>0.26.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
@@ -165,7 +165,7 @@
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
       <artifactId>os-obm-core</artifactId>
-      <version>0.30.5</version>
+      <version>0.30.7</version>
     </dependency>
     <dependency>
       <groupId>org.opengroup.osdu</groupId>

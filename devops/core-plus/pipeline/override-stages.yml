@@ -18,17 +18,23 @@ cimpl-container-scanning:
       trivy image --scanners vuln --ignore-unfixed --exit-code 1 \
         --severity "HIGH,CRITICAL" --format json --output trivy-cimpl.json \
         "$DOCKER_IMAGE" || status=$?
-      if [ -f trivy-cimpl.json ]; then cat trivy-cimpl.json; fi
+      if [ -f trivy-cimpl.json ]; then
+        trivy convert --format template \
+          --template @devops/core-plus/pipeline/gitlab-container-scanning.tpl \
+          --output gl-container-scanning-report.json trivy-cimpl.json
+      fi
       exit "$status"
   artifacts:
     when: always
     paths:
       - trivy-cimpl.json
+      - gl-container-scanning-report.json
+    reports:
+      container_scanning: gl-container-scanning-report.json
     expire_in: 7 days
   rules:
-    - if: '$CIMPL == "1" && $IGNORE_CONTAINER_SCANNING == "true"'
-      allow_failure: true
     - if: '$CIMPL == "1"'
+      allow_failure: false
 
 # os-core-test 0.2.0 GetInfoAssertions gates feature-flag checks on
 # EXPOSE_FEATUREFLAG_ENABLED. The deployed legal service exposes feature flags,
