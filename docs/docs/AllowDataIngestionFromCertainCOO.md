@@ -24,13 +24,7 @@ then enter the appropriate restriction level in the `residencyRisk` field.
 
 	Usually we set `residencyRisk` to `Client consent required` when we are allowing data from this country as an exception, but please consult with business if this is the correct value here.
 
-2.  Go to cloud storage location where we store legal config file. For example `Azure resource group - dev dp1`:  
-
-![](images/PartitionDataContainer.png)
-
-3.  Go to the `legal-service-azure-configuration` container and upload the `Legal_COO.json` file created in step 1, replace the existing item with the same name if existed:
-
-   ![](images/UploadFile.png)
+2.  Upload the `Legal_COO.json` file created in step 1 to the legal configuration storage location for the data partition, replacing any existing file with the same name.
 
 !!! Note "Make sure filename matches exactly"
 
