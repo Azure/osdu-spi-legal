@@ -9,10 +9,6 @@ Official documentation is located at [https://osdu.pages.opengroup.org/platform/
 
 Community / core-plus modules compile and run on Java 25. For core-plus local setup, see [legal-core-plus/README.md](./legal-core-plus/README.md).
 
-## os-legal-azure
-
-The steps for running `os-legal-azure` can be found in the [Azure Implementation README.md file](./provider/legal-azure/README.md).
-
 ## os-legal-aws
 
 The AWS provider has been removed from this repository.
@@ -34,7 +30,7 @@ All the Swagger and OpenAPI related common properties are managed here [swagger.
 #### Server Url(full path vs relative path) configuration
 - `api.server.fullUrl.enabled=true` It will generate full server url in the OpenAPI swagger
 - `api.server.fullUrl.enabled=false` It will generate only the contextPath only
-- default value is false (Currently only in Azure it is enabled)
+- default value is false
 [Reference]:(https://springdoc.org/faq.html#_how_is_server_url_generated) 
 
 ## License
