@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.2.1](https://github.com/Azure/osdu-spi-legal/compare/v1.2.0...v1.2.1) (2026-10-20)
+
+
+### 🐛 Bug Fixes
+
+* [Venus] CI-friendly Maven versions for Legal ([#292](https://github.com/Azure/osdu-spi-legal/issues/292)) ([e3417c8](https://github.com/Azure/osdu-spi-legal/commit/e3417c82e8ef675a8162445855d7c8465778bfee))
+* **azure:** Upgrade core-lib-azure to 4.0.0 ([c28f8e6](https://github.com/Azure/osdu-spi-legal/commit/c28f8e6a2fdfab2c63a69c00ad40f19a81deb86f))
+* **cve:** Bump jackson to 2.21.7 and Tomcat to 10.1.60 ([ba05b1c](https://github.com/Azure/osdu-spi-legal/commit/ba05b1ca05709259375e44dfb7745261d0d06890))
+* **cve:** Bump jackson to 2.21.7 and Tomcat to 10.1.60 ([b9175d9](https://github.com/Azure/osdu-spi-legal/commit/b9175d91b1aebc50a44c83f87d089bc6b03d8ac7))
+* Sync upstream changes from 1fb15142 ([4deba6e](https://github.com/Azure/osdu-spi-legal/commit/4deba6ed5ae9b8f4745c91f4e96bf418b06568cf))
+* Sync upstream changes from 56ebd4f7 ([0f3cf29](https://github.com/Azure/osdu-spi-legal/commit/0f3cf29e78e29a29ae02d5d3f11dad5a186771b7))
+* Sync upstream changes from ba05b1ca ([77dfc57](https://github.com/Azure/osdu-spi-legal/commit/77dfc57e2ed06c6c09b5763b76afa0744777917f))
+
+
+### 🔧 Miscellaneous
+
+* Generate filtered upstream tree ([245c831](https://github.com/Azure/osdu-spi-legal/commit/245c831382f60d513362db6539ee145ba752c221))
+* Generate filtered upstream tree ([2d41f60](https://github.com/Azure/osdu-spi-legal/commit/2d41f603e67e4a15a32d7aae8367ee551aa79926))
+* Generate filtered upstream tree ([cbf0d32](https://github.com/Azure/osdu-spi-legal/commit/cbf0d32dacb963c53b942c14ccd3450ff4c73f71))
+* Remove Azure provider and Azure CI/CD ([56ebd4f](https://github.com/Azure/osdu-spi-legal/commit/56ebd4f7b981cbeacdcf982ef82d16e821138f1f))
+* Remove Azure provider and Azure CI/CD ([bb76aed](https://github.com/Azure/osdu-spi-legal/commit/bb76aeda7ff0de22ab32e87b86b2887bcabbe99d))
+* Stamp fork-owned pom versions ([db31b7e](https://github.com/Azure/osdu-spi-legal/commit/db31b7e094ce81e419e61b7774d229d070d54be6))
+* Sync template updates ([d13b4d9](https://github.com/Azure/osdu-spi-legal/commit/d13b4d9675ddafdb72b1314c0ef3e298a7942863))
+* Sync template updates ([a3e0c1d](https://github.com/Azure/osdu-spi-legal/commit/a3e0c1d3d8b28dd7e7c4ed8f38944101907d972e))
+* Sync template updates ([d3e010a](https://github.com/Azure/osdu-spi-legal/commit/d3e010a0945628d6440780403ab10c86ac2adea6))
+* **template-sync:** Sync template updates (updated 2026-10-13) ([e38ebb5](https://github.com/Azure/osdu-spi-legal/commit/e38ebb5712ea33f2668b5b46c99e369c913b67e6))
+* **template-sync:** Sync template updates 2026-10-14 ([4cf4833](https://github.com/Azure/osdu-spi-legal/commit/4cf4833d0504a09600f85b34f30b3492ebb4da5c))
+* **template-sync:** Sync template updates 2026-10-20 ([49b4bb0](https://github.com/Azure/osdu-spi-legal/commit/49b4bb0919b2143eeca90d463091a82a51317067))
+* Update NOTICE from fossa-check-notice ([406bc28](https://github.com/Azure/osdu-spi-legal/commit/406bc28173ba17218b34cbbabccf1e6fee940a5a))
+
+
+### 🔨 Build System
+
+* **deps:** Bump core-lib-azure to 4.0.0 in legal-azure ([f8b2126](https://github.com/Azure/osdu-spi-legal/commit/f8b212644900472170192853c7604d23cd80667a))
+
 ## [1.2.0](https://github.com/Azure/osdu-spi-legal/compare/v1.1.0...v1.2.0) (2026-10-06)
 
 
