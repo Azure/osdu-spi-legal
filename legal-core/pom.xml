@@ -158,8 +158,6 @@
 					<propertyName>jacocoArgLine</propertyName>
 					<excludes>
 						<exclude>org/opengroup/osdu/legal/SwaggerDoc.class</exclude>
-						<exclude>org/opengroup/osdu/legal/middleware/GlobalErrorHandler.class</exclude>
-						<exclude>**/**Config*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
