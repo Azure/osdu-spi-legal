@@ -86,12 +86,6 @@
       <artifactId>resilience4j-retry</artifactId>
       <version>${resilience4jVersion}</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-    </dependency>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
