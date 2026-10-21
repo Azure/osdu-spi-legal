@@ -38,7 +38,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- OSDU Versions-->
-    <os-core-common.version>trusted-fix-java17-spring-boot-4-SNAPSHOT</os-core-common.version>
+    <os-core-common.version>8.5.0</os-core-common.version>
 
     <!-- Spring Versions -->
     <spring-boot.version>4.0.8</spring-boot.version>
