@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2](https://github.com/Azure/osdu-spi-legal/compare/v1.2.1...v1.2.2) (2026-10-21)
+
+
+### 🔨 Build System
+
+* **legal-azure:** Remove spi-packages maven repository ([75de5eb](https://github.com/Azure/osdu-spi-legal/commit/75de5ebdd687e57ed04d437ffc5709b25782009b))
+* **legal-azure:** Remove spi-packages maven repository ([5bb9ebc](https://github.com/Azure/osdu-spi-legal/commit/5bb9ebc900955f13d992d31599e863d081a749d5))
+
 ## [1.2.1](https://github.com/Azure/osdu-spi-legal/compare/v1.2.0...v1.2.1) (2026-10-20)
 
 
