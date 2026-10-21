@@ -97,7 +97,7 @@ download_plugins:
     OBM_PACKAGE_REGISTRY_URL: "https://community.opengroup.org/api/v4/projects/1441/packages/maven"
     OBM_VERSION: "0.30.7"
     OQM_PACKAGE_REGISRTY_URL: "https://community.opengroup.org/api/v4/projects/1450/packages/maven"
-    OQM_VERSION: "0.28.3-SNAPSHOT"
+    OQM_VERSION: "trusted-fix-java17-amqp-release-0-28-SNAPSHOT"
 
   artifacts:
     paths:
