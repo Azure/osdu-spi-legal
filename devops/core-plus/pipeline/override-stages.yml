@@ -9,61 +9,43 @@ cimpl-containerize-cronjob-gitlab:
     CIMPL_IMAGE_NAME: "$CIMPL_LEGALSTATUS_IMAGE_NAME"
     CIMPL_BUILD_PATH: "devops/core-plus/bootstrap_legalstatus_update/Dockerfile"
 
-.cimpl_set_image_name:
+cimpl-helm-charts-gitlab:
+  before_script:
+    - helm registry login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - !reference [.cimpl_set_image_name, script]
+    - !reference [.cimpl_set_legalstatus_image_name, script]
+    - !reference [.cimpl_substitute_image_in_helm, script]
+    - !reference [.cimpl_substitute_legalstatus_image, script]
+
+cimpl-helm-charts-release-gitlab:
+  before_script:
+    - helm registry login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - !reference [.cimpl_set_image_name, script]
+    - !reference [.cimpl_set_legalstatus_image_name, script]
+    - !reference [.cimpl_substitute_image_in_helm, script]
+    - !reference [.cimpl_substitute_legalstatus_image, script]
+
+# Appends branch suffix to CIMPL_LEGALSTATUS_IMAGE_NAME, mirroring the
+# release/master branches of .cimpl_set_image_name for the third image legal
+# manages. Tag builds use the tag directly via IMAGE_TAG, no suffix needed.
+.cimpl_set_legalstatus_image_name:
   script:
     - >
       if echo $CI_COMMIT_REF_NAME | grep -Eq "^release\/[0-9]{1,2}.[0-9]{1,2}$";
       then
-        export CIMPL_IMAGE_NAME=$CIMPL_IMAGE_NAME-release;
-        export CIMPL_IMAGE_BOOTSTRAP_NAME=$CIMPL_IMAGE_BOOTSTRAP_NAME-release;
         export CIMPL_LEGALSTATUS_IMAGE_NAME=$CIMPL_LEGALSTATUS_IMAGE_NAME-release;
       fi
     - >
       if [[ "$CI_COMMIT_REF_NAME" == "$CI_DEFAULT_BRANCH" ]];
       then
-        export CIMPL_IMAGE_NAME=$CIMPL_IMAGE_NAME-master;
-        export CIMPL_IMAGE_BOOTSTRAP_NAME=$CIMPL_IMAGE_BOOTSTRAP_NAME-master;
         export CIMPL_LEGALSTATUS_IMAGE_NAME=$CIMPL_LEGALSTATUS_IMAGE_NAME-master;
       fi
-    - >
-      if [[ "$CI_COMMIT_TAG" != "" ]];
-      then
-        IMAGE_TAG="$CI_COMMIT_TAG";
-        EXTRA_TAG="-t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_NAME:$CI_COMMIT_TAG";
-        EXTRA_BOOTSTRAP_TAG="-t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_BOOTSTRAP_NAME:$CI_COMMIT_TAG";
-      elif [[ "$CI_COMMIT_REF_NAME" == "$CI_DEFAULT_BRANCH" ]];
-      then
-        IMAGE_TAG="$CI_COMMIT_SHORT_SHA";
-        CHART_IMAGE_TAG="latest";
-        CIMPL_HELM_TAG="latest"
-        EXTRA_TAG="-t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_NAME:$CI_COMMIT_SHORT_SHA -t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_NAME:latest";
-        EXTRA_BOOTSTRAP_TAG="-t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_BOOTSTRAP_NAME:$CI_COMMIT_SHORT_SHA -t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_BOOTSTRAP_NAME:latest";
-      else
-        IMAGE_TAG="$CI_COMMIT_SHORT_SHA";
-        CIMPL_HELM_TAG="cimpl$CI_COMMIT_SHORT_SHA"
-        EXTRA_TAG="-t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_NAME:$CI_COMMIT_SHORT_SHA";
-        EXTRA_BOOTSTRAP_TAG="-t $CI_REGISTRY_IMAGE/$CIMPL_IMAGE_BOOTSTRAP_NAME:$CI_COMMIT_SHORT_SHA";
-      fi
- 
-.cimpl_substitute_image_in_helm:
-  script:
-    - wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
-    # Rolling default-branch charts pin the mutable :latest image tag (pushed by
-    # the same pipeline) because registry cleanup policies purge per-commit SHA
-    # tags, which strands any chart that still references them. Tag and MR
-    # builds keep the exact IMAGE_TAG.
-    - IMAGE="$CI_REGISTRY_IMAGE/$CIMPL_IMAGE_NAME:${CHART_IMAGE_TAG:-$IMAGE_TAG}" yq -i '.data.image = env(IMAGE)' $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml
-    - yq -e '.data | has("bootstrapImage")' $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml &>/dev/null && BOOTSTRAP_IMAGE="$CI_REGISTRY_IMAGE/$CIMPL_IMAGE_BOOTSTRAP_NAME:${CHART_IMAGE_TAG:-$IMAGE_TAG}" yq -i '.data.bootstrapImage = env(BOOTSTRAP_IMAGE)' $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml
-    - LEGALSTATUS_UPDATE_IMAGE="$CI_REGISTRY_IMAGE/$CIMPL_LEGALSTATUS_IMAGE_NAME:${CHART_IMAGE_TAG:-$IMAGE_TAG}" yq -i '.data.legalStatusUpdateImage = env(LEGALSTATUS_UPDATE_IMAGE)' $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml
-    # A mutable tag needs Always: IfNotPresent leaves nodes on a cached :latest layer.
-    - >
-      if [[ -n "$CHART_IMAGE_TAG" ]];
-      then
-        yq -i '.data.imagePullPolicy = "Always"' $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml;
-      fi
-    - cat $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml | grep -i image
 
-#osdu-main jobs
+# Writes legalStatusUpdateImage to values.yaml. Must run after
+# .cimpl_substitute_image_in_helm which installs yq.
+.cimpl_substitute_legalstatus_image:
+  script:
+    - LEGALSTATUS_UPDATE_IMAGE="$CI_REGISTRY_IMAGE/$CIMPL_LEGALSTATUS_IMAGE_NAME:${CHART_IMAGE_TAG:-$IMAGE_TAG}" yq -i '.data.legalStatusUpdateImage = env(LEGALSTATUS_UPDATE_IMAGE)' $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml
 
 # os-core-test 0.2.0 GetInfoAssertions gates feature-flag checks on
 # EXPOSE_FEATUREFLAG_ENABLED. The deployed legal service exposes feature flags,
