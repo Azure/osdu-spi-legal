@@ -149,7 +149,7 @@
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
       <artifactId>os-oqm-core</artifactId>
-      <version>trusted-fix-java17-amqp-release-0-28-SNAPSHOT</version>
+      <version>0.28.3</version>
     </dependency>
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
