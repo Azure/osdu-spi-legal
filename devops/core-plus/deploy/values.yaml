@@ -23,7 +23,7 @@ data:
   legalStatusUpdateImage: ""
   cronJobServiceAccountName: ""
   serviceAccountName: "legal"
-  imagePullPolicy: "IfNotPresent"
+  imagePullPolicy: "Always"
   image: ""
 
 conf:
