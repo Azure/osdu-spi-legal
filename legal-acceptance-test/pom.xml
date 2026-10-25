@@ -13,7 +13,7 @@
 		<maven.compiler.release>${java.version}</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.main.basedir>${project.basedir}</project.main.basedir>
-		<os-core-test.version>1.1.0</os-core-test.version>
+		<os-core-test.version>1.2.1</os-core-test.version>
 		<lombok.version>1.18.42</lombok.version>
 		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
 	</properties>
