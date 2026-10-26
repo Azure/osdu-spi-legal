@@ -65,7 +65,7 @@
     <netty.version>4.2.17.Final</netty.version>
     <!-- Container scanning (Trivy): jackson-core/databind 2.21.4 → HIGH CVEs fixed in 2.21.7.
          Import jackson-bom ahead of spring-boot-dependencies so the whole jackson.core line moves. -->
-    <jackson-bom.version>2.21.7</jackson-bom.version>
+    <jackson-bom.version>2.21.8</jackson-bom.version>
     <mockito.version>5.23.0</mockito.version>
     <!-- Kept for Surefire @{argLine} late replacement in module POMs. -->
     <argLine></argLine>
