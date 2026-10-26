@@ -63,7 +63,7 @@ include:
     file: "cloud-providers/gc-global.yml"
 
   - project: "osdu/platform/ci-cd-pipelines"
-    ref: release/0.30
+    ref: feat/cimpl-container-scanning
     file: "cloud-providers/cimpl-global.yml"
 
   - project: "osdu/platform/ci-cd-pipelines"

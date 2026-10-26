@@ -2,40 +2,6 @@ variables:
   CIMPL_SERVICE: legal
   CIMPL_LEGALSTATUS_IMAGE_NAME: cimpl-legal-status-update
 
-cimpl-container-scanning:
-  extends: container_scanning
-  needs: ["cimpl-containerize-gitlab"]
-  variables:
-    TRIVY_USERNAME: $CI_REGISTRY_USER
-    TRIVY_PASSWORD: $CI_REGISTRY_PASSWORD
-  before_script:
-    - !reference [.cimpl_set_image_name, script]
-  script:
-    - |
-      DOCKER_IMAGE="$CI_REGISTRY_IMAGE/$CIMPL_IMAGE_NAME:$IMAGE_TAG"
-      echo "[INFO] Scanning CIMPL Container Image: $DOCKER_IMAGE"
-      status=0
-      trivy image --scanners vuln --ignore-unfixed --exit-code 1 \
-        --severity "HIGH,CRITICAL" --format json --output trivy-cimpl.json \
-        "$DOCKER_IMAGE" || status=$?
-      if [ -f trivy-cimpl.json ]; then
-        trivy convert --format template \
-          --template @devops/core-plus/pipeline/gitlab-container-scanning.tpl \
-          --output gl-container-scanning-report.json trivy-cimpl.json
-      fi
-      exit "$status"
-  artifacts:
-    when: always
-    paths:
-      - trivy-cimpl.json
-      - gl-container-scanning-report.json
-    reports:
-      container_scanning: gl-container-scanning-report.json
-    expire_in: 7 days
-  rules:
-    - if: '$CIMPL == "1"'
-      allow_failure: false
-
 # os-core-test 0.2.0 GetInfoAssertions gates feature-flag checks on
 # EXPOSE_FEATUREFLAG_ENABLED. The deployed legal service exposes feature flags,
 # so the acceptance test must expect them (otherwise asserts null vs the live
@@ -57,6 +23,12 @@ cimpl-containerize-cronjob-gitlab:
   variables:
     CIMPL_IMAGE_NAME: "$CIMPL_LEGALSTATUS_IMAGE_NAME"
     CIMPL_BUILD_PATH: "devops/core-plus/bootstrap_legalstatus_update/Dockerfile"
+
+cimpl-cronjob-container-scanning:
+  extends: cimpl-container-scanning
+  needs: ["cimpl-containerize-cronjob-gitlab"]
+  variables:
+    CIMPL_IMAGE_NAME: "$CIMPL_LEGALSTATUS_IMAGE_NAME"
 
 .cimpl_set_image_name:
   script:
