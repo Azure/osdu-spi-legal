@@ -18,7 +18,7 @@
 package org.opengroup.osdu.legal.countries;
 
 import static org.junit.Assert.*;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;

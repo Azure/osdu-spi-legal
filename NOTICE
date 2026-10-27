@@ -99,7 +99,6 @@ The following software have components provided under the terms of this license:
 - Byte Buddy (without dependencies) (from https://bytebuddy.net/, https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy)
 - Byte Buddy Java agent (from https://bytebuddy.net/, https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy-agent)
 - ClassMate (from http://github.com/cowtowncoder/java-classmate)
-- Commons Lang (from http://commons.apache.org/lang/)
 - Converter: Jackson (from https://github.com/square/retrofit, https://repo1.maven.org/maven2/com/squareup/retrofit2/converter-jackson)
 - Core functionality for the Reactor Netty library (from https://github.com/reactor/reactor-netty)
 - FindBugs-jsr305 (from http://findbugs.sourceforge.net/)
@@ -204,7 +203,6 @@ The following software have components provided under the terms of this license:
 - Spring Boot Actuator AutoConfigure (from https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-actuator-autoconfigure, https://spring.io/projects/spring-boot)
 - Spring Boot Actuator Starter (from http://projects.spring.io/spring-boot/, https://spring.io/projects/spring-boot)
 - Spring Boot AutoConfigure (from https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-autoconfigure, https://spring.io/projects/spring-boot)
-- Spring Boot Json Starter (from https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-starters/spring-boot-starter-json, https://spring.io/projects/spring-boot)
 - Spring Boot Log4j 2 Starter (from http://projects.spring.io/spring-boot/, https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-starters/spring-boot-starter-log4j2, https://spring.io/projects/spring-boot)
 - Spring Boot Logging Starter (from http://projects.spring.io/spring-boot/, https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-starters/spring-boot-starter-logging, https://spring.io/projects/spring-boot)
 - Spring Boot Security Starter (from http://projects.spring.io/spring-boot/, https://spring.io/projects/spring-boot)
@@ -243,18 +241,34 @@ The following software have components provided under the terms of this license:
 - javax.annotation API (from http://jcp.org/en/jsr/detail?id=250)
 - jose4j (from https://bitbucket.org/b_c/jose4j/)
 - json-path (from http://code.google.com/p/json-path/, https://github.com/jayway/JsonPath)
-- micrometer-commons (from https://github.com/micrometer-metrics/micrometer-commercial)
-- micrometer-core (from https://github.com/micrometer-metrics/micrometer, https://github.com/micrometer-metrics/micrometer-commercial)
-- micrometer-jakarta9 (from https://github.com/micrometer-metrics/micrometer-commercial)
-- micrometer-observation (from https://github.com/micrometer-metrics/micrometer-commercial)
-- micrometer-registry-azure-monitor (from https://github.com/micrometer-metrics/micrometer, https://github.com/micrometer-metrics/micrometer-commercial)
+- micrometer-commons (from https://github.com/micrometer-metrics/micrometer)
+- micrometer-core (from https://github.com/micrometer-metrics/micrometer)
+- micrometer-jakarta9 (from https://github.com/micrometer-metrics/micrometer)
+- micrometer-observation (from https://github.com/micrometer-metrics/micrometer)
+- micrometer-registry-azure-monitor (from https://github.com/micrometer-metrics/micrometer)
 - org.apiguardian:apiguardian-api (from https://github.com/apiguardian-team/apiguardian)
 - org.opentest4j:opentest4j (from https://github.com/ota4j-team/opentest4j)
 - org.xmlunit:xmlunit-core (from http://www.xmlunit.org/, https://www.xmlunit.org/)
 - powermock-module-junit4 (from http://www.powermock.org/)
 - proto-google-common-protos (from https://github.com/googleapis/api-client-staging, https://github.com/googleapis/google-cloud-java/tree/main/sdk-platform-java, https://github.com/googleapis/googleapis, https://github.com/googleapis/java-iam/proto-google-common-protos)
 - resilience4j (from https://github.com/resilience4j/resilience4j, https://resilience4j.readme.io/, ttps://resilience4j.readme.io)
+- spring-boot-health (from https://spring.io/projects/spring-boot)
+- spring-boot-http-converter (from https://spring.io/projects/spring-boot)
+- spring-boot-jackson (from https://spring.io/projects/spring-boot)
+- spring-boot-jackson2 (from https://spring.io/projects/spring-boot)
 - spring-boot-loader (from https://spring.io/projects/spring-boot)
+- spring-boot-micrometer-metrics (from https://spring.io/projects/spring-boot)
+- spring-boot-micrometer-observation (from https://spring.io/projects/spring-boot)
+- spring-boot-security (from https://spring.io/projects/spring-boot)
+- spring-boot-servlet (from https://spring.io/projects/spring-boot)
+- spring-boot-starter-jackson (from https://spring.io/projects/spring-boot)
+- spring-boot-starter-micrometer-metrics (from https://spring.io/projects/spring-boot)
+- spring-boot-starter-tomcat-runtime (from https://spring.io/projects/spring-boot)
+- spring-boot-starter-webmvc (from https://spring.io/projects/spring-boot)
+- spring-boot-tomcat (from https://spring.io/projects/spring-boot)
+- spring-boot-validation (from https://spring.io/projects/spring-boot)
+- spring-boot-web-server (from https://spring.io/projects/spring-boot)
+- spring-boot-webmvc (from https://spring.io/projects/spring-boot)
 - spring-security-oauth2-client (from http://spring.io/spring-security, https://spring.io/projects/spring-security, https://spring.io/spring-security)
 - spring-security-oauth2-core (from http://spring.io/spring-security, https://spring.io/projects/spring-security, https://spring.io/spring-security)
 - spring-security-oauth2-jose (from http://spring.io/spring-security, https://spring.io/projects/spring-security, https://spring.io/spring-security)
@@ -406,6 +420,7 @@ The following software have components provided under the terms of this license:
 - Jakarta Dependency Injection (from https://github.com/eclipse-ee4j/injection-api)
 - Jakarta Messaging API (from https://projects.eclipse.org/projects/ee4j.jms)
 - Jakarta Servlet (from https://projects.eclipse.org/projects/ee4j.servlet)
+- Jakarta Validation API (from https://beanvalidation.org, https://beanvalidation.org/)
 - Jakarta XML Binding API (from https://repo1.maven.org/maven2/jakarta/xml/bind/jakarta.xml.bind-api, https://repo1.maven.org/maven2/org/jboss/spec/javax/xml/bind/jboss-jaxb-api_2.3_spec)
 
 ========================================================================
@@ -467,7 +482,6 @@ The following software have components provided under the terms of this license:
 - Azure Java Client Authentication Library for AutoRest (from https://github.com/Azure/autorest-clientruntime-for-java)
 - Azure Java Client Runtime for ARM (from https://github.com/Azure/autorest-clientruntime-for-java)
 - Azure Java Client Runtime for AutoRest (from https://github.com/Azure/autorest-clientruntime-for-java)
-- Checker Qual (from https://checkerframework.org)
 - DafnyRuntime (from https://github.com/dafny-lang/dafny)
 - Extensions on Apache Proton-J library (from https://github.com/Azure/qpid-proton-j-extensions)
 - JUL to SLF4J bridge (from http://www.slf4j.org, http://www.slf4j.org/)
@@ -508,6 +522,7 @@ The following software have components provided under the terms of this license:
 - Netty/Codec/HTTP (from http://netty.io/, https://repo1.maven.org/maven2/io/netty/netty-codec-http)
 - Netty/Common (from http://netty.io/, https://repo1.maven.org/maven2/io/netty/netty-common)
 - Project Lombok (from http://projectlombok.org, https://projectlombok.org, https://projectlombok.org/)
+- Redis AuthX Core (from https://github.com/redis/redis-authx-core)
 - SLF4J API Module (from http://www.slf4j.org, http://www.slf4j.org/)
 - Spring Cloud Azure AutoConfigure (from https://microsoft.github.io/spring-cloud-azure)
 - Spring Cloud Azure Core (from https://microsoft.github.io/spring-cloud-azure)
@@ -519,22 +534,14 @@ The following software have components provided under the terms of this license:
 - adal4j (from https://github.com/AzureAD/azure-activedirectory-library-for-java)
 - javamsalruntime (from https://github.com/AzureAD/microsoft-authentication-library-for-cpp)
 - jwks-rsa-java (from https://github.com/auth0/jwks-rsa-java)
-- micrometer-commons (from https://github.com/micrometer-metrics/micrometer-commercial)
-- micrometer-core (from https://github.com/micrometer-metrics/micrometer, https://github.com/micrometer-metrics/micrometer-commercial)
+- micrometer-commons (from https://github.com/micrometer-metrics/micrometer)
+- micrometer-core (from https://github.com/micrometer-metrics/micrometer)
 - mockito-inline (from http://mockito.org, https://github.com/mockito/mockito)
 - mockito-junit-jupiter (from https://github.com/mockito/mockito)
 - msal4j (from https://github.com/AzureAD/microsoft-authentication-library-for-java)
 - msal4j-brokers (from https://github.com/AzureAD/microsoft-authentication-library-for-java)
 - msal4j-persistence-extension (from https://github.com/AzureAD/microsoft-authentication-extensions-for-java, https://github.com/AzureAD/microsoft-authentication-library-for-java)
-- redis-authx-core (from https://github.com/redis/redis-authx-core)
 - webjars-locator-lite (from https://webjars.org/)
-
-========================================================================
-SPL-1.0
-========================================================================
-The following software have components provided under the terms of this license:
-
-- Checker Qual (from https://checkerframework.org)
 
 ========================================================================
 WTFPL
@@ -548,7 +555,6 @@ cc-pd
 ========================================================================
 The following software have components provided under the terms of this license:
 
-- Guava: Google Core Libraries for Java (from http://code.google.com/p/guava-libraries, https://github.com/google/guava, https://repo1.maven.org/maven2/com/google/guava/guava)
 - Netty/Codec (from http://netty.io/, https://repo1.maven.org/maven2/io/netty/netty-codec)
 - Netty/Codec/Base (from https://netty.io/)
 

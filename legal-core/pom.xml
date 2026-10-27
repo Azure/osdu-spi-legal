@@ -34,7 +34,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-jackson2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -154,8 +158,6 @@
 					<propertyName>jacocoArgLine</propertyName>
 					<excludes>
 						<exclude>org/opengroup/osdu/legal/SwaggerDoc.class</exclude>
-						<exclude>org/opengroup/osdu/legal/middleware/GlobalErrorHandler.class</exclude>
-						<exclude>**/**Config*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

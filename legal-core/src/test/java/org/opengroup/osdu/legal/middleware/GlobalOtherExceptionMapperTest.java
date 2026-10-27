@@ -27,7 +27,7 @@ public class GlobalOtherExceptionMapperTest {
 
         ResponseEntity response = sut.handleGeneralException(exception);
 
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, response.getStatusCodeValue());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, response.getStatusCode().value());
     }
 
 

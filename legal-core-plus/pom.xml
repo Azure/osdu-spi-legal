@@ -55,7 +55,6 @@
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
-      <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -87,12 +86,6 @@
       <artifactId>resilience4j-retry</artifactId>
       <version>${resilience4jVersion}</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-    </dependency>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -107,20 +100,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito2 -->
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-mockito2</artifactId>
-      <version>2.0.2</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>2.0.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -170,7 +149,7 @@
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
       <artifactId>os-oqm-core</artifactId>
-      <version>0.25.0-rc1</version>
+      <version>0.29.0</version>
     </dependency>
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
@@ -180,7 +159,7 @@
     <dependency>
       <groupId>org.opengroup.osdu</groupId>
       <artifactId>os-obm-core</artifactId>
-      <version>0.30.5</version>
+      <version>0.30.7</version>
     </dependency>
     <dependency>
       <groupId>org.opengroup.osdu</groupId>

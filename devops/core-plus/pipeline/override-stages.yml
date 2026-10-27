@@ -24,6 +24,12 @@ cimpl-containerize-cronjob-gitlab:
     CIMPL_IMAGE_NAME: "$CIMPL_LEGALSTATUS_IMAGE_NAME"
     CIMPL_BUILD_PATH: "devops/core-plus/bootstrap_legalstatus_update/Dockerfile"
 
+cimpl-cronjob-container-scanning:
+  extends: cimpl-container-scanning
+  needs: ["cimpl-containerize-cronjob-gitlab"]
+  variables:
+    CIMPL_IMAGE_NAME: "$CIMPL_LEGALSTATUS_IMAGE_NAME"
+
 .cimpl_set_image_name:
   script:
     - >
@@ -77,4 +83,3 @@ cimpl-containerize-cronjob-gitlab:
         yq -i '.data.imagePullPolicy = "Always"' $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml;
       fi
     - cat $CIMPL_HELM_DEPLOYMENT_DIR/values.yaml | grep -i image
-

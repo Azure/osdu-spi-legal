@@ -4,15 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.opengroup.osdu.legal.util.Constants.DATA_PARTITION_ID;
 
 import java.net.URL;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
@@ -119,29 +112,6 @@ public class TestUtils {
 	}
 
 	public Client getClient() {
-		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-			@Override
-			public X509Certificate[] getAcceptedIssuers() {
-				return null;
-			}
-
-			@Override
-			public void checkClientTrusted(X509Certificate[] certs, String authType) {
-			}
-
-			@Override
-			public void checkServerTrusted(X509Certificate[] certs, String authType) {
-			}
-		} };
-
-		try {
-			SSLContext sc = SSLContext.getInstance("TLS");
-			sc.init(null, trustAllCerts, new SecureRandom());
-			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-		} catch (Exception e) {
-		}
-
 		return Client.create();
 	}
 }
-

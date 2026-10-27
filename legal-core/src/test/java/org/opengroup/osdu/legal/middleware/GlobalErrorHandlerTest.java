@@ -22,12 +22,20 @@ import static org.mockito.Mockito.when;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.opengroup.osdu.core.common.model.http.AppException;
+import org.springframework.http.HttpMethod;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -35,6 +43,17 @@ class GlobalErrorHandlerTest {
 
     @Mock
     HttpServletRequest request;
+
+    @ParameterizedTest
+    @EnumSource(RequestMethod.class)
+    void shouldPreserveErrorStatusForEveryHttpMethod(RequestMethod method) throws Exception {
+        MockMvcBuilders.standaloneSetup(new GlobalErrorHandler())
+            .addDispatcherServletCustomizer(servlet -> servlet.setDispatchTraceRequest(true))
+            .build()
+            .perform(MockMvcRequestBuilders.request(HttpMethod.valueOf(method.name()), "/error")
+                .requestAttr("jakarta.servlet.error.status_code", 400))
+            .andExpect(status().isBadRequest());
+    }
 
     @Test
     void givenMessageWhenExceptionIsThrownThenMessageSanitiseTriggered() {
