@@ -236,12 +236,6 @@
       </modules>
     </profile>
     <profile>
-      <id>ibm</id>
-      <modules>
-        <module>provider/legal-ibm</module>
-      </modules>
-    </profile>
-    <profile>
       <id>Default</id>
       <activation>
         <property>
@@ -350,8 +344,6 @@
                     <exclude>org.opengroup.osdu.legal:legal-service</exclude>
                     <exclude>org.opengroup.osdu.legal:legal-core</exclude>
                     <exclude>org.opengroup.osdu.legal:legal-core-plus</exclude>
-                    <!-- CSP (IBM): transitive SNAPSHOT via os-core-lib-ibm; drop when IBM migrates. -->
-                    <exclude>org.opengroup.osdu:os-core-common-spring6</exclude>
                   </excludes>
                 </requireReleaseDeps>
               </rules>
