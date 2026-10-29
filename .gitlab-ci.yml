@@ -8,7 +8,6 @@ variables:
   SERVICE_JAVA_VERSION: "3.9.16-eclipse-temurin-25"
 
   # Spotbugs is only intended for Groovy, Scala, or Koitlin development; not Maven+Java
-  # The presence of provider/legal-ibm/src/test/resources/logback.groovy is tricking GitLab into including the job
   # We exclude it here to speed up pipeline execution, and avoid having the image fail on our Maven builds
   # Maven jobs should be using semgrep instead
   SAST_EXCLUDED_ANALYZERS: "spotbugs"
