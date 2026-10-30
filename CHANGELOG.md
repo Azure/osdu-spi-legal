@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.2.2](https://github.com/Azure/osdu-spi-legal/compare/v1.2.1...v1.2.2) (2026-10-30)
+
+
+### 🐛 Bug Fixes
+
+* Sync upstream changes from 4038499f ([080f9f5](https://github.com/Azure/osdu-spi-legal/commit/080f9f5dd79f82180ae94dbc1d265e217e5510f6))
+* Sync upstream changes from aa612c2a ([1b0919b](https://github.com/Azure/osdu-spi-legal/commit/1b0919b3623e39e2c0f8fb2c017a4f09ff31d6d4))
+
+
+### 🔧 Miscellaneous
+
+* Generate filtered upstream tree ([dd0c5e4](https://github.com/Azure/osdu-spi-legal/commit/dd0c5e4b17b9d0b3ab654c32e7e0a18374d73dd9))
+* Generate filtered upstream tree ([712d0a1](https://github.com/Azure/osdu-spi-legal/commit/712d0a1b91c8a1f250d0cb89ce3def402f451a8a))
+* Remove IBM provider and IBM CI/CD ([4038499](https://github.com/Azure/osdu-spi-legal/commit/4038499ff67c1f9768bccb829745ce314b80529b))
+* Remove IBM provider and IBM CI/CD ([7086df2](https://github.com/Azure/osdu-spi-legal/commit/7086df2bf273465fa0053d346e24782d7901bb13))
+* Sync template updates ([f9ed87b](https://github.com/Azure/osdu-spi-legal/commit/f9ed87b5753fa52b6f8094e5f64a87038f78d2ab))
+* Sync template updates ([5482e66](https://github.com/Azure/osdu-spi-legal/commit/5482e66410c0111d1a452965a4c0c00bb8769b13))
+* **template-sync:** Sync template updates (updated 2026-10-27) ([13b08aa](https://github.com/Azure/osdu-spi-legal/commit/13b08aa94366a36df581cc52647683b043f3143f))
+* **template-sync:** Sync template updates 2026-10-27 ([8250975](https://github.com/Azure/osdu-spi-legal/commit/82509753a788ef7262c46cd9d277f8c82597e866))
+* Update NOTICE after IBM provider removal ([9d2039a](https://github.com/Azure/osdu-spi-legal/commit/9d2039a4d8c94b7fc4b5a15112b0b25b2eff2644))
+
+
+### 🔨 Build System
+
+* **legal-azure:** Remove spi-packages maven repository ([75de5eb](https://github.com/Azure/osdu-spi-legal/commit/75de5ebdd687e57ed04d437ffc5709b25782009b))
+* **legal-azure:** Remove spi-packages maven repository ([5bb9ebc](https://github.com/Azure/osdu-spi-legal/commit/5bb9ebc900955f13d992d31599e863d081a749d5))
+
 ## [1.2.1](https://github.com/Azure/osdu-spi-legal/compare/v1.2.0...v1.2.1) (2026-10-20)
 
 
