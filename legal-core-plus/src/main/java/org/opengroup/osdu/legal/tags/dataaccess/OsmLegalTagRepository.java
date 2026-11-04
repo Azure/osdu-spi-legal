@@ -106,19 +106,10 @@ public class OsmLegalTagRepository implements ILegalTagRepository {
 
   @Override
   public Collection<LegalTag> get(long[] ids) {
-    List<LegalTag> output = new ArrayList<>();
-
-    if (Objects.nonNull(ids) && ids.length > 0) {
-      for (long id : ids) {
-        GetQuery<LegalTag> osmQuery = new GetQuery<>(LegalTag.class, getDestination(),
-            eq("id", id));
-        LegalTag legalTag = context.getOne(osmQuery);
-        if (Objects.nonNull(legalTag)) {
-          output.add(legalTag);
-        }
-      }
+    if (Objects.isNull(ids) || ids.length == 0) {
+      return new ArrayList<>();
     }
-    return output;
+    return context.getByIds(LegalTag.class, getDestination(), ids);
   }
 
   @Override
