@@ -2,6 +2,8 @@ schemaVersion: 3
 service:
   name: legal
   archetype: java-maven-azure
+componentGovernance:
+  upstream: https://community.opengroup.org/osdu/platform/security-and-compliance/legal
 tests:
   acceptance:
     type: maven
