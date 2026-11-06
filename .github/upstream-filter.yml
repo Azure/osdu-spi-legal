@@ -21,7 +21,7 @@ top_level:
   .sonarlint: keep
   .trufflehog-exclude: strip
   LICENSE: keep
-  NOTICE: keep
+  NOTICE: strip
   README.md: strip
   docs: keep
   pom.xml: keep
