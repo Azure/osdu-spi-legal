@@ -344,8 +344,6 @@
                     <exclude>org.opengroup.osdu.legal:legal-service</exclude>
                     <exclude>org.opengroup.osdu.legal:legal-core</exclude>
                     <exclude>org.opengroup.osdu.legal:legal-core-plus</exclude>
-                    <!-- Temporary: OSM build from os-osm!25 until 1.1.0 is released. -->
-                    <exclude>org.opengroup.osdu:os-osm-core</exclude>
                   </excludes>
                 </requireReleaseDeps>
               </rules>
