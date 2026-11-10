@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.2.2](https://github.com/Azure/osdu-spi-legal/compare/v1.2.1...v1.2.2) (2026-11-06)
+
+
+### 🐛 Bug Fixes
+
+* Sync upstream changes from 4038499f ([080f9f5](https://github.com/Azure/osdu-spi-legal/commit/080f9f5dd79f82180ae94dbc1d265e217e5510f6))
+* Sync upstream changes from aa612c2a ([1b0919b](https://github.com/Azure/osdu-spi-legal/commit/1b0919b3623e39e2c0f8fb2c017a4f09ff31d6d4))
+
+
+### 🔧 Miscellaneous
+
+* Declare component governance inputs ([644f0c6](https://github.com/Azure/osdu-spi-legal/commit/644f0c6833287781e451628f7df74e42b0747ef0))
+* Declare component governance inputs ([0c93c6d](https://github.com/Azure/osdu-spi-legal/commit/0c93c6dbe3d56704ca0b05097d3d9758175f9ff7))
+* Generate filtered upstream tree ([dd0c5e4](https://github.com/Azure/osdu-spi-legal/commit/dd0c5e4b17b9d0b3ab654c32e7e0a18374d73dd9))
+* Generate filtered upstream tree ([712d0a1](https://github.com/Azure/osdu-spi-legal/commit/712d0a1b91c8a1f250d0cb89ce3def402f451a8a))
+* **notice:** Refresh NOTICE from Component Governance ([76041a9](https://github.com/Azure/osdu-spi-legal/commit/76041a90526b71be6ad1ac9efb5f445756497333))
+* **notice:** Refresh NOTICE from Component Governance ([de910cf](https://github.com/Azure/osdu-spi-legal/commit/de910cf26ac8cb71b4e4566044e58b2bdb578056))
+* Remove IBM provider and IBM CI/CD ([4038499](https://github.com/Azure/osdu-spi-legal/commit/4038499ff67c1f9768bccb829745ce314b80529b))
+* Remove IBM provider and IBM CI/CD ([7086df2](https://github.com/Azure/osdu-spi-legal/commit/7086df2bf273465fa0053d346e24782d7901bb13))
+* Sync template updates ([30098cf](https://github.com/Azure/osdu-spi-legal/commit/30098cfd5f1b017bdfc3c22bebb6ded537011699))
+* Sync template updates ([521a12f](https://github.com/Azure/osdu-spi-legal/commit/521a12f4364f59fba1a5eb164fcb4e9a94de5e0a))
+* Sync template updates ([98e0e7e](https://github.com/Azure/osdu-spi-legal/commit/98e0e7ee800ee5fa18708dd28ff77f6615f1c6de))
+* Sync template updates ([dfb44f0](https://github.com/Azure/osdu-spi-legal/commit/dfb44f0ed62ada54ad73beb2e338f9c37caac8ee))
+* Sync template updates ([b57b92c](https://github.com/Azure/osdu-spi-legal/commit/b57b92c9ee7311e822be8eb8024c0cc60f008dcb))
+* Sync template updates ([5c69d51](https://github.com/Azure/osdu-spi-legal/commit/5c69d5153e75ddc881ada59a5014fcb95db1bf87))
+* Sync template updates ([2487288](https://github.com/Azure/osdu-spi-legal/commit/2487288cd59fcbba8a2a3e119098e76266079a33))
+* Sync template updates ([f9ed87b](https://github.com/Azure/osdu-spi-legal/commit/f9ed87b5753fa52b6f8094e5f64a87038f78d2ab))
+* Sync template updates ([5482e66](https://github.com/Azure/osdu-spi-legal/commit/5482e66410c0111d1a452965a4c0c00bb8769b13))
+* **template-sync:** Sync template updates (updated 2026-10-27) ([13b08aa](https://github.com/Azure/osdu-spi-legal/commit/13b08aa94366a36df581cc52647683b043f3143f))
+* **template-sync:** Sync template updates (updated 2026-11-02) ([a5ed9a0](https://github.com/Azure/osdu-spi-legal/commit/a5ed9a0a6f3953a273ad4302120650b3d3b244f7))
+* **template-sync:** Sync template updates (updated 2026-11-04) ([ddcd0ff](https://github.com/Azure/osdu-spi-legal/commit/ddcd0ff9b08e6e0013479c9307d35a929d150c4c))
+* **template-sync:** Sync template updates (updated 2026-11-05) ([75633ec](https://github.com/Azure/osdu-spi-legal/commit/75633ecaf4929aa184c6d9647ccbb191ec871494))
+* **template-sync:** Sync template updates 2026-10-27 ([8250975](https://github.com/Azure/osdu-spi-legal/commit/82509753a788ef7262c46cd9d277f8c82597e866))
+* **template-sync:** Sync template updates 2026-10-30 ([bff85d5](https://github.com/Azure/osdu-spi-legal/commit/bff85d5d3b1e0249da178309c365b3c154b34960))
+* **template-sync:** Sync template updates 2026-11-02 ([5ee55df](https://github.com/Azure/osdu-spi-legal/commit/5ee55df19985f6f1bb01676f288d23237fb82fff))
+* **template-sync:** Sync template updates 2026-11-03 ([86e5cfb](https://github.com/Azure/osdu-spi-legal/commit/86e5cfb82139c36a6e63a0ff221963ac6971aa2b))
+* **template-sync:** Sync template updates 2026-11-06 ([cf2efb8](https://github.com/Azure/osdu-spi-legal/commit/cf2efb8dbb223dbc52a4cf4722e4e2f17a321b3c))
+* Update NOTICE after IBM provider removal ([9d2039a](https://github.com/Azure/osdu-spi-legal/commit/9d2039a4d8c94b7fc4b5a15112b0b25b2eff2644))
+
+
+### 🔨 Build System
+
+* **legal-azure:** Remove spi-packages maven repository ([75de5eb](https://github.com/Azure/osdu-spi-legal/commit/75de5ebdd687e57ed04d437ffc5709b25782009b))
+* **legal-azure:** Remove spi-packages maven repository ([5bb9ebc](https://github.com/Azure/osdu-spi-legal/commit/5bb9ebc900955f13d992d31599e863d081a749d5))
+
 ## [1.2.1](https://github.com/Azure/osdu-spi-legal/compare/v1.2.0...v1.2.1) (2026-10-20)
 
 
