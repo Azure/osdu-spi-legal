@@ -19,6 +19,14 @@ variables:
   # Schemathesis routes are set via .schemathesis-legal-matrix below.
   CIMPL_OPENAPI_CONFIG_ROUTE: /api/legal/v1/api-docs/swagger-config
 
+# The shared coverage job runs legal-core and legal-core-plus in separate Maven
+# invocations. Install the reactor first so legal-core-plus can resolve legal-core
+# and its compiled classes are available to the SonarCloud job that consumes coverage.
+core_code_coverage:
+  before_script:
+    - !reference [.maven, before_script]
+    - $MAVEN -pl legal-core,legal-core-plus -am install -DskipTests=true
+
 include:
   - project: "osdu/platform/ci-cd-pipelines"
     file: "standard-setup.yml"
