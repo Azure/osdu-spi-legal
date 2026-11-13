@@ -65,6 +65,8 @@ public class SecurityConfiguration {
   };
 
   @Bean
+  // CSRF is ignored only for explicit Bearer auth headers, not browser ambient credentials.
+  @SuppressWarnings("java:S4502")
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors(AbstractHttpConfigurer::disable)
         // OSDU clients send bearer credentials explicitly; keep CSRF enabled for requests
