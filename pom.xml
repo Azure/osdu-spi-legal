@@ -39,7 +39,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- OSDU Versions-->
-    <os-core-common.version>10.0.0</os-core-common.version>
+    <os-core-common.version>10.0.1</os-core-common.version>
 
     <!-- Spring Versions -->
     <!-- Spring Boot 4 / Spring 7: Spring Framework CVE-2026-47884 / CVE-2026-47890 are fixed only in 7.0.9. -->
