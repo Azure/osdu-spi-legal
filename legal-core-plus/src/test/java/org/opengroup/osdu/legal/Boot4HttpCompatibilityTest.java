@@ -25,6 +25,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -62,6 +63,20 @@ public class Boot4HttpCompatibilityTest {
   @Test
   public void should_rejectMalformedJson() throws Exception {
     assertEquals(400, post("/legaltags/", "{\"expirationDate\":").statusCode());
+  }
+
+  @Test
+  public void should_requireCsrfProtectionWithoutBearerAuthentication() throws Exception {
+    HttpResponse<String> response = client.send(
+        HttpRequest.newBuilder(uri("/legaltags"))
+            .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .POST(HttpRequest.BodyPublishers.ofString("{\"expirationDate\":\"2025-12-25\"}"))
+            .build(),
+        HttpResponse.BodyHandlers.ofString());
+
+    assertTrue(
+        "Expected CSRF protection to reject the request, got " + response.statusCode(),
+        response.statusCode() == 401 || response.statusCode() == 403);
   }
 
   @Test
@@ -114,6 +129,7 @@ public class Boot4HttpCompatibilityTest {
     return client.send(
         HttpRequest.newBuilder(uri(path))
             .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer test-token")
             .POST(HttpRequest.BodyPublishers.ofString(body))
             .build(),
         HttpResponse.BodyHandlers.ofString());
