@@ -74,6 +74,8 @@
     <!-- Kept for Surefire @{argLine} late replacement in module POMs. -->
     <argLine></argLine>
 
+    <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/legal-core/target/site/jacoco/jacoco.xml,${maven.multiModuleProjectDirectory}/legal-core-plus/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
     <!-- Plugin Versions -->
     <spring-boot-maven-plugin.version>${spring-boot.version}</spring-boot-maven-plugin.version>
     <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
