@@ -598,13 +598,13 @@ public class LegalTagServiceTests {
         output.setIsValid(true);
         sut = createSut(output);
         Boolean found = sut.checkAttributeForMatch("expirationDate", "2023-11-20", output);
-        assert(found.equals(true));
+        assertTrue(found, "expirationDate should match");
         Boolean found2 = sut.checkAttributeForMatch("any", "test", output);
-        assert(found2.equals(true));
+        assertTrue(found2, "any should match");
         Boolean found3 = sut.checkAttributeForMatch("countryOfOrigin", "US", output);
-        assert(found3.equals(true));
+        assertTrue(found3, "countryOfOrigin should match");
         Boolean found4 = sut.checkAttributeForMatch("dataType", "US", output);
-        assert(found4.equals(false));
+        assertFalse(found4, "dataType should not match");
 
         HashMap<String, Object> extensionPropertiesMap = new HashMap<>();
         extensionPropertiesMap.put("TestBoolean", false);

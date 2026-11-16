@@ -39,7 +39,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- OSDU Versions-->
-    <os-core-common.version>10.0.0</os-core-common.version>
+    <os-core-common.version>10.0.1</os-core-common.version>
 
     <!-- Spring Versions -->
     <!-- Spring Boot 4 / Spring 7: Spring Framework CVE-2026-47884 / CVE-2026-47890 are fixed only in 7.0.9. -->
@@ -73,6 +73,8 @@
     <mockito.version>5.23.0</mockito.version>
     <!-- Kept for Surefire @{argLine} late replacement in module POMs. -->
     <argLine></argLine>
+
+    <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/legal-core/target/site/jacoco/jacoco.xml,${maven.multiModuleProjectDirectory}/legal-core-plus/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
     <!-- Plugin Versions -->
     <spring-boot-maven-plugin.version>${spring-boot.version}</spring-boot-maven-plugin.version>
