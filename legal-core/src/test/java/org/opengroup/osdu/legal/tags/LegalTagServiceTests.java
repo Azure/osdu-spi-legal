@@ -304,6 +304,7 @@ public class LegalTagServiceTests {
     public void should_returnReadableLegalTag_when_updateSucceeds() {
         UpdateLegalTag updateTag = LegalTestUtils.createUpdateLegalTag("name");
         LegalTag input = LegalTestUtils.createValidLegalTag("name");
+        Map<String, Object> existingExtension = input.getProperties().getExtensionProperties();
         sut = createSut(input);
         when(legalTagRepositoryMock.update(input)).thenReturn(input);
 
@@ -312,8 +313,31 @@ public class LegalTagServiceTests {
         assertEquals(result.getName(), updateTag.getName());
         assertEquals(result.getProperties().getContractId(), updateTag.getContractId());
         assertEquals(result.getProperties().getExpirationDate(), updateTag.getExpirationDate());
-        assertEquals(result.getProperties().getExtensionProperties(), updateTag.getExtensionProperties());
+        // updateTag omits extensionProperties → existing value is kept
+        assertEquals(existingExtension, result.getProperties().getExtensionProperties());
         assertEquals(result.getDescription(), updateTag.getDescription());
+        verify(validator, times(1)).isValidThrows(any());
+    }
+
+    @Test
+    public void should_keepExistingFields_when_updateOmitsOptionalProperties() {
+        LegalTag input = LegalTestUtils.createValidLegalTag("name");
+        String originalContractId = input.getProperties().getContractId();
+        Date originalExpiration = input.getProperties().getExpirationDate();
+        Map<String, Object> originalExtension = input.getProperties().getExtensionProperties();
+        sut = createSut(input);
+        when(legalTagRepositoryMock.update(input)).thenReturn(input);
+
+        UpdateLegalTag partial = new UpdateLegalTag();
+        partial.setName("name");
+        partial.setDescription("description-only update");
+
+        LegalTagDto result = sut.update(partial, "tenant2");
+
+        assertEquals("description-only update", result.getDescription());
+        assertEquals(originalContractId, result.getProperties().getContractId());
+        assertEquals(originalExpiration, result.getProperties().getExpirationDate());
+        assertEquals(originalExtension, result.getProperties().getExtensionProperties());
         verify(validator, times(1)).isValidThrows(any());
     }
 
@@ -574,13 +598,13 @@ public class LegalTagServiceTests {
         output.setIsValid(true);
         sut = createSut(output);
         Boolean found = sut.checkAttributeForMatch("expirationDate", "2023-11-20", output);
-        assert(found.equals(true));
+        assertTrue(found, "expirationDate should match");
         Boolean found2 = sut.checkAttributeForMatch("any", "test", output);
-        assert(found2.equals(true));
+        assertTrue(found2, "any should match");
         Boolean found3 = sut.checkAttributeForMatch("countryOfOrigin", "US", output);
-        assert(found3.equals(true));
+        assertTrue(found3, "countryOfOrigin should match");
         Boolean found4 = sut.checkAttributeForMatch("dataType", "US", output);
-        assert(found4.equals(false));
+        assertFalse(found4, "dataType should not match");
 
         HashMap<String, Object> extensionPropertiesMap = new HashMap<>();
         extensionPropertiesMap.put("TestBoolean", false);
@@ -655,15 +679,102 @@ public class LegalTagServiceTests {
         assertEquals(m, message);
     }
 
+    public void test_properties_empty_query(String testQuery) {
+        test_properties_exceptions(testQuery, "Error Null Search Query");
+    }
+
+    @Test
+    public void should_return400_when_operatorListContainsUnrecognizedOperator() {
+        test_properties_exceptions("[name=opendes-osdu-testing-1]",
+                "Error parsing operator list, expected intersection or union", "foo");
+        test_properties_exceptions("[name=opendes-osdu-testing-1]",
+                "Error parsing operator list, expected intersection or union", "intersect");
+        test_properties_exceptions("[name=opendes-osdu-testing-1]",
+                "Error parsing operator list, expected intersection or union", "AND");
+    }
+
+    @Test
+    public void should_return400_when_queryListContainsBlankEntries() {
+        sut = createSutWithExtensionProperties_test1();
+
+        QueryLegalTag searchLegalTag = new QueryLegalTag();
+        searchLegalTag.setQueryList(Arrays.asList("", "[name=opendes-osdu-testing-1]", "   "));
+
+        Exception e = assertThrows(AppException.class, () ->
+                sut.queryLegalTag(searchLegalTag, true, "tenant1"));
+        assertEquals("Error Null Search Query", e.getMessage());
+    }
+
+    @Test
+    public void should_return400_when_queryListContainsNull() {
+        sut = createSutWithExtensionProperties_test1();
+
+        QueryLegalTag searchLegalTag = new QueryLegalTag();
+        searchLegalTag.setQueryList(Arrays.asList(null, "[name=opendes-osdu-testing-1]"));
+        searchLegalTag.setOperatorList(Collections.emptyList());
+        searchLegalTag.setSortBy("");
+        searchLegalTag.setSortOrder("");
+        searchLegalTag.setLimit(10);
+
+        Exception e = assertThrows(AppException.class, () ->
+                sut.queryLegalTag(searchLegalTag, true, "tenant1"));
+        assertEquals("Error Null Search Query", e.getMessage());
+    }
+
+    @Test
+    public void should_treatUnmatchedParenthesisAsFreeText_when_querying() {
+        sut = createSutWithExtensionProperties_test1();
+
+        // Schemathesis-style free text that happens to include '(' without a closing ')'
+        // must not be treated as a date-range query (previously caused 500 via substring).
+        QueryLegalTag searchLegalTag = new QueryLegalTag();
+        searchLegalTag.setQueryList(Collections.singletonList("\u0001$d\u00b8E(\ud873\udfa5"));
+
+        LegalTagDtos resultDto = sut.queryLegalTag(searchLegalTag, true, "tenant1");
+
+        assertTrue(resultDto != null && resultDto.getLegalTags() != null);
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasInvalidDates() {
+        test_properties_exceptions("(not-a-date,also-bad)",
+                "Error parsing date query, expected (yyyy-MM-dd,yyyy-MM-dd)");
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasOnlyFromDate() {
+        test_properties_exceptions("(2023-01-01)",
+                "Error parsing date query, expected (fromDate,toDate)");
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasEmptyFromTo() {
+        test_properties_exceptions("(,)",
+                "Error parsing date query, expected (fromDate,toDate)");
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasTooManyParts() {
+        test_properties_exceptions("(2023-01-01,2099-12-31,extra)",
+                "Error parsing date query, expected (fromDate,toDate)");
+    }
+
+    @Test
+    public void should_return200_when_dateBetweenQueryHasValidFromTo() {
+        sut = createSutWithExtensionProperties_test1();
+        QueryLegalTag searchLegalTag = new QueryLegalTag();
+        searchLegalTag.setQueryList(Collections.singletonList("(2023-01-01,2099-12-31)"));
+        LegalTagDtos resultDto = sut.queryLegalTag(searchLegalTag, true, "tenant1");
+        assertTrue(resultDto != null && resultDto.getLegalTags() != null);
+    }
+
     @Test
     public void test_legaltag_exceptions_whenExceptionThrown_thenAssertionSucceeds() {
         // test exceptions
         test_properties_exceptions("[foo=]", "Error parsing attribute query, expected attribute=string");
         test_properties_exceptions("[any=]", "Error parsing attribute query, expected attribute=string");
-        test_properties_exceptions("[]", "Error Null Search Query");
-        test_properties_exceptions("", "Error Null Search Query");
-        test_properties_exceptions("", "Error parsing operator list, expected intersection or union", "foo");
-        test_properties_exceptions("[name=test]", "Error parsing operator list, expected intersection or union", "bar");
+        test_properties_empty_query("");
+        test_properties_empty_query("[]");
     }
 
     @Test

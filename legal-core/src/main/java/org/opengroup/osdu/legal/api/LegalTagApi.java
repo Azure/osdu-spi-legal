@@ -1,5 +1,7 @@
 package org.opengroup.osdu.legal.api;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -15,7 +17,6 @@ import org.opengroup.osdu.core.common.model.http.AppError;
 import org.opengroup.osdu.core.common.model.legal.ServiceConfig;
 import org.opengroup.osdu.core.common.model.legal.validation.ValidName;
 import org.opengroup.osdu.legal.tags.dto.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -48,7 +49,7 @@ public interface LegalTagApi {
     })
     @PreAuthorize("@authorizationFilter.hasPermission('" + ServiceConfig.LEGAL_EDITOR + "', '" + ServiceConfig.LEGAL_ADMIN + "')")
     @PostMapping("/legaltags")
-    ResponseEntity<LegalTagDto> createLegalTag(@NotNull @RequestBody LegalTagDto legalTag);
+    ResponseEntity<LegalTagDto> createLegalTag(@Valid @NotNull @RequestBody CreateLegalTag legalTag);
 
     @Operation(summary = "${legalTagApi.updateLegalTag.summary}", description = "${legalTagApi.updateLegalTag.description}",
             security = {@SecurityRequirement(name = "Authorization")}, tags = {"legaltag"})
@@ -98,13 +99,18 @@ public interface LegalTagApi {
     })
     @PreAuthorize("@authorizationFilter.hasPermission('" + ServiceConfig.LEGAL_USER + "', '" + ServiceConfig.LEGAL_EDITOR + "', '" + ServiceConfig.LEGAL_ADMIN + "')")
     @GetMapping("/legaltags/{name}")
-    ResponseEntity getLegalTag(@Parameter(description = "Name of the LegalTag", in = ParameterIn.PATH,
-            example = "OSDU-Private-USA-EHC") @PathVariable("name") @ValidName String name);
+    ResponseEntity getLegalTag(
+            @Parameter(description = "Name of the LegalTag", in = ParameterIn.PATH,
+                    required = true, example = "OSDU-Private-USA-EHC")
+            @PathVariable("name")
+            @Size(min = LegalTagDto.NAME_MIN_LENGTH, max = LegalTagDto.NAME_MAX_LENGTH)
+            @Pattern(regexp = LegalTagDto.NAME_PATTERN)
+            @ValidName String name);
 
     @Operation(summary = "${legalTagApi.deleteLegalTag.summary}", description = "${legalTagApi.deleteLegalTag.description}",
             security = {@SecurityRequirement(name = "Authorization")}, tags = {"legaltag"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "LegalTag deleted successfully.", content = {@Content(schema = @Schema(implementation = HttpStatus.class))}),
+            @ApiResponse(responseCode = "204", description = "LegalTag deleted successfully."),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {@Content(schema = @Schema(implementation = AppError.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content(schema = @Schema(implementation = AppError.class))}),
             @ApiResponse(responseCode = "403", description = "User not authorized to perform the action.", content = {@Content(schema = @Schema(implementation = AppError.class))}),
@@ -115,8 +121,13 @@ public interface LegalTagApi {
     })
     @PreAuthorize("@authorizationFilter.hasPermission('" + ServiceConfig.LEGAL_ADMIN + "')")
     @DeleteMapping("/legaltags/{name}")
-    ResponseEntity<HttpStatus> deleteLegalTag(@Parameter(description = "Name of the LegalTag to delete",
-            in = ParameterIn.PATH, example = "OSDU-Private-USA-EHC") @PathVariable("name") @ValidName String name);
+    ResponseEntity<Void> deleteLegalTag(
+            @Parameter(description = "Name of the LegalTag to delete", in = ParameterIn.PATH,
+                    required = true, example = "OSDU-Private-USA-EHC")
+            @PathVariable("name")
+            @Size(min = LegalTagDto.NAME_MIN_LENGTH, max = LegalTagDto.NAME_MAX_LENGTH)
+            @Pattern(regexp = LegalTagDto.NAME_PATTERN)
+            @ValidName String name);
 
     @Operation(summary = "${legalTagApi.getLegalTags.summary}", description = "${legalTagApi.getLegalTags.description}",
             security = {@SecurityRequirement(name = "Authorization")}, tags = {"legaltag"})

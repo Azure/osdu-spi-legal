@@ -43,3 +43,8 @@ build/
 
 # Other
 **/custom-values.yaml
+
+# Schemathesis
+schemathesis-tests/output/
+schemathesis-tests/.schemathesis/
+schemathesis-tests/.hypothesis/

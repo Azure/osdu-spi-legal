@@ -1,7 +1,7 @@
 package org.opengroup.osdu.legal.jobs.models;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.opengroup.osdu.core.common.model.legal.serialization.ExpirationDateDeserializer;
 

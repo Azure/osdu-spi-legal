@@ -79,8 +79,8 @@ public class LegalTagService {
   public LegalTagDto create(LegalTagDto legalTagDto, String tenantName) {
     if (legalTagDto == null)
       return null;
-    validateExpirationDate(legalTagDto.getProperties().getExpirationDate());
     validator.isValidThrows(legalTagDto);
+    validateExpirationDate(legalTagDto.getProperties().getExpirationDate());
 
     ILegalTagRepository legalTagRepository = repositories.get(tenantName);
 
@@ -189,7 +189,7 @@ public class LegalTagService {
   }
 
   public LegalTagDto update(UpdateLegalTag newLegalTag, String tenantName) {
-    if (newLegalTag == null)
+    if (newLegalTag == null || tenantName == null || newLegalTag.getName() == null)
       return null;
     validateExpirationDate(newLegalTag.getExpirationDate());
     LegalTag currentLegalTag = getLegalTag(newLegalTag.getName(), tenantName);
@@ -197,10 +197,20 @@ public class LegalTagService {
       throw AppException.legalTagDoesNotExistError(newLegalTag.getName());
     }
 
-    currentLegalTag.getProperties().setContractId(newLegalTag.getContractId());
-    currentLegalTag.getProperties().setExpirationDate(newLegalTag.getExpirationDate());
-    currentLegalTag.getProperties().setExtensionProperties(newLegalTag.getExtensionProperties());
-    currentLegalTag.setDescription(newLegalTag.getDescription());
+    // Omitted fields keep their stored values. Explicit null for expirationDate
+    // also preserves it, so an existing date cannot be cleared.
+    if (newLegalTag.getContractId() != null) {
+      currentLegalTag.getProperties().setContractId(newLegalTag.getContractId());
+    }
+    if (newLegalTag.getExpirationDate() != null) {
+      currentLegalTag.getProperties().setExpirationDate(newLegalTag.getExpirationDate());
+    }
+    if (newLegalTag.getExtensionProperties() != null) {
+      currentLegalTag.getProperties().setExtensionProperties(newLegalTag.getExtensionProperties());
+    }
+    if (newLegalTag.getDescription() != null) {
+      currentLegalTag.setDescription(newLegalTag.getDescription());
+    }
     validator.isValidThrows(currentLegalTag);
 
     auditLogger.updatedLegalTagSuccess(Collections.singletonList(currentLegalTag.toString()));
@@ -347,6 +357,9 @@ public class LegalTagService {
     while (queryListIt.hasNext()) {
 
       extractedSearchQuery = queryListIt.next();
+      if (extractedSearchQuery == null) {
+        throw new AppException(HttpStatus.SC_BAD_REQUEST, "Null Search Query", "Error Null Search Query");
+      }
       Matcher m = Pattern.compile("\\[([^]]*)").matcher(extractedSearchQuery);
       while (m.find()) {
 
@@ -400,7 +413,16 @@ public class LegalTagService {
     if (searchQuery == null || searchQuery.equals("")) {
       log.error("Null query");
       throw new AppException(HttpStatus.SC_BAD_REQUEST, "Null Search Query", "Error Null Search Query");
-    } else if (searchQuery.contains(LEGAL_QUERY_API_ATTRIBUTE_SEPARATOR)) {
+    }
+
+    boolean isAttributeQuery = searchQuery.contains(LEGAL_QUERY_API_ATTRIBUTE_SEPARATOR);
+    boolean isDateBetweenQuery = !isAttributeQuery
+        && searchQuery.contains(LEGAL_QUERY_API_BETWEEN_START)
+        && searchQuery.contains(LEGAL_QUERY_API_BETWEEN_END)
+        && searchQuery.indexOf(LEGAL_QUERY_API_BETWEEN_START)
+            < searchQuery.lastIndexOf(LEGAL_QUERY_API_BETWEEN_END);
+
+    if (isAttributeQuery) {
       st = new StringTokenizer(searchQuery, LEGAL_QUERY_API_ATTRIBUTE_SEPARATOR);
       log.debug(String.format("DEBUG readInputAndSearch contains =, %s", searchQuery));
       int tokens = st.countTokens();
@@ -412,20 +434,32 @@ public class LegalTagService {
         throw new AppException(HttpStatus.SC_BAD_REQUEST, "Error parsing attribute query",
             "Error parsing attribute query, expected attribute=string");
       }
-    } else if (searchQuery.contains(LEGAL_QUERY_API_BETWEEN_START)) {
-      // date
+    } else if (isDateBetweenQuery) {
+      // date range: require matching '(' ... ')' before treating as between-query
       log.debug(String.format("DEBUG readInputAndSearch contains (), %s", searchQuery));
       searchedString = searchQuery.substring(searchQuery.indexOf(LEGAL_QUERY_API_BETWEEN_START) + 1,
           searchQuery.lastIndexOf(LEGAL_QUERY_API_BETWEEN_END));
 
       if (searchedString.contains(LEGAL_QUERY_API_QUERY_SEPARATOR)) {
         st = new StringTokenizer(searchedString, LEGAL_QUERY_API_QUERY_SEPARATOR);
+        if (st.countTokens() != 2) {
+          throw new AppException(HttpStatus.SC_BAD_REQUEST, "Error parsing date query",
+              "Error parsing date query, expected (fromDate,toDate)");
+        }
         fromDate = st.nextToken().trim();
         toDate = st.nextToken().trim();
+      } else {
+        throw new AppException(HttpStatus.SC_BAD_REQUEST, "Error parsing date query",
+            "Error parsing date query, expected (fromDate,toDate)");
       }
 
-      fromlocalDate = LocalDate.parse(fromDate);
-      toLocalDate = LocalDate.parse(toDate);
+      try {
+        fromlocalDate = LocalDate.parse(fromDate);
+        toLocalDate = LocalDate.parse(toDate);
+      } catch (Exception e) {
+        throw new AppException(HttpStatus.SC_BAD_REQUEST, "Error parsing date query",
+            "Error parsing date query, expected (yyyy-MM-dd,yyyy-MM-dd)", e);
+      }
 
     } else {
       log.debug(String.format("DEBUG readInputAndSearch contains free text search, %s", searchQuery));
@@ -436,9 +470,9 @@ public class LegalTagService {
     log.debug(String.format("DEBUG parseInputAndSearch pattern: %s attribute %s, %s", pattern, attribute, searchQuery));
     while (null != legaliterator && legaliterator.hasNext()) {
       LegalTag oneLegalTag = legaliterator.next();
-      if (searchQuery.contains(LEGAL_QUERY_API_ATTRIBUTE_SEPARATOR)) {
+      if (isAttributeQuery) {
         matchedTag = searchInLegalTag(attribute, pattern, oneLegalTag);
-      } else if (searchQuery.contains(LEGAL_QUERY_API_BETWEEN_START)) {
+      } else if (isDateBetweenQuery) {
         expirationDate = oneLegalTag.getProperties().getExpirationDate().toLocalDate();
         matchedTag = expirationDate.isAfter(fromlocalDate) && expirationDate.isBefore(toLocalDate);
       } else if (attribute.contains(LEGAL_QUERY_API_FREE_TEXT_ATTRIBUTE)) {
