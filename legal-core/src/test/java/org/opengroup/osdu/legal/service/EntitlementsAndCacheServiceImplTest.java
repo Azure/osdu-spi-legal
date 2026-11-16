@@ -1,4 +1,4 @@
-// Copyright © SLB
+// Copyright Â© SLB
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import org.opengroup.osdu.core.common.model.entitlements.Groups;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.http.HttpResponse;
-import org.opengroup.osdu.legal.service.EntitlementsAndCacheServiceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +56,10 @@ public class EntitlementsAndCacheServiceImplTest {
     private static final String EXCEPTION_MESSAGE = "exception message";
     private static final String ERROR_REASON = "Access denied";
     private static final String ERROR_MSG = "The user is not authorized to perform this action";
+    private static final String RATE_LIMIT_REASON = "Too many requests";
+    private static final String RATE_LIMIT_MSG = "The entitlements service rate limit was exceeded";
+    private static final String UNAVAILABLE_REASON = "Service unavailable";
+    private static final String UNAVAILABLE_MSG = "The entitlements service is unavailable";
 
     @Mock
     private IEntitlementsFactory entitlementFactory;
@@ -121,18 +124,61 @@ public class EntitlementsAndCacheServiceImplTest {
     }
 
     @Test
-    public void should_throwAppException_whenCatchEntitlementsException_whenGetGroups() throws EntitlementsException {
-        when(cache.get(anyString())).thenReturn(null);
-        HttpResponse httpResponse = new HttpResponse();
-        EntitlementsException ex = new EntitlementsException(EXCEPTION_MESSAGE, httpResponse);
-        when(this.entitlementFactory.create(headers)).thenReturn(entitlementService);
-        when(entitlementService.getGroups()).thenThrow(ex);
-
-        AppException exception = assertThrows(AppException.class, () -> sut.getGroups(headers));
+    public void should_passThrough401_whenEntitlementsReturnsUnauthorized() throws EntitlementsException {
+        HttpResponse httpResponse = responseWithCode(401);
+        AppException exception = assertThrows(AppException.class, () -> getGroupsThrowing(httpResponse));
 
         verify(logger).error(String.format("Error requesting entitlements service %s", httpResponse));
+        assertEquals(401, exception.getError().getCode());
         assertEquals(ERROR_REASON, exception.getError().getReason());
         assertEquals(ERROR_MSG, exception.getError().getMessage());
+    }
+
+    @Test
+    public void should_passThrough403_whenEntitlementsReturnsForbidden() throws EntitlementsException {
+        AppException exception = assertThrows(AppException.class, () -> getGroupsThrowing(responseWithCode(403)));
+
+        assertEquals(403, exception.getError().getCode());
+        assertEquals(ERROR_REASON, exception.getError().getReason());
+        assertEquals(ERROR_MSG, exception.getError().getMessage());
+    }
+
+    @Test
+    public void should_passThrough429_whenEntitlementsReturnsRateLimit() throws EntitlementsException {
+        AppException exception = assertThrows(AppException.class, () -> getGroupsThrowing(responseWithCode(429)));
+
+        assertEquals(429, exception.getError().getCode());
+        assertEquals(RATE_LIMIT_REASON, exception.getError().getReason());
+        assertEquals(RATE_LIMIT_MSG, exception.getError().getMessage());
+    }
+
+    @Test
+    public void should_throw401_whenEntitlementsReturnsOtherClientErrors() throws EntitlementsException {
+        AppException badRequest = assertThrows(AppException.class, () -> getGroupsThrowing(responseWithCode(400)));
+        assertEquals(401, badRequest.getError().getCode());
+
+        AppException notFound = assertThrows(AppException.class, () -> getGroupsThrowing(responseWithCode(404)));
+        assertEquals(401, notFound.getError().getCode());
+    }
+
+    @Test
+    public void should_throw503_whenEntitlementsReturnsServerError() throws EntitlementsException {
+        HttpResponse httpResponse = responseWithCode(503);
+        AppException exception = assertThrows(AppException.class, () -> getGroupsThrowing(httpResponse));
+
+        verify(logger).error(String.format("Error requesting entitlements service %s", httpResponse));
+        assertEquals(503, exception.getError().getCode());
+        assertEquals(UNAVAILABLE_REASON, exception.getError().getReason());
+        assertEquals(UNAVAILABLE_MSG, exception.getError().getMessage());
+    }
+
+    @Test
+    public void should_throw503_whenEntitlementsTimesOutOrHasNoStatus() throws EntitlementsException {
+        AppException timeout = assertThrows(AppException.class, () -> getGroupsThrowing(responseWithCode(0)));
+        assertEquals(503, timeout.getError().getCode());
+
+        AppException serverError = assertThrows(AppException.class, () -> getGroupsThrowing(responseWithCode(500)));
+        assertEquals(503, serverError.getError().getCode());
     }
 
     @Test
@@ -153,6 +199,21 @@ public class EntitlementsAndCacheServiceImplTest {
     private void setDefaultHeaders() {
         headerMap.put(DpsHeaders.ACCOUNT_ID, HEADER_ACCOUNT_ID);
         headerMap.put(DpsHeaders.AUTHORIZATION, HEADER_AUTHORIZATION);
+    }
+
+    private void getGroupsThrowing(HttpResponse httpResponse) throws EntitlementsException {
+        when(cache.get(anyString())).thenReturn(null);
+        EntitlementsException ex = new EntitlementsException(EXCEPTION_MESSAGE, httpResponse);
+        when(this.entitlementFactory.create(headers)).thenReturn(entitlementService);
+        // doThrow: when().thenThrow() invokes getGroups() and rethrows a previous stub.
+        doThrow(ex).when(entitlementService).getGroups();
+        sut.getGroups(headers);
+    }
+
+    private static HttpResponse responseWithCode(int status) {
+        HttpResponse httpResponse = new HttpResponse();
+        httpResponse.setResponseCode(status);
+        return httpResponse;
     }
 
 }

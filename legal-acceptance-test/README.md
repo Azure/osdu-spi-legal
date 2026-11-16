@@ -1,6 +1,6 @@
 # Legal acceptance tests
 
-End-to-end acceptance tests for the OSDU Legal service. They run with JUnit 5 and depend on [`os-core-test`](https://community.opengroup.org/osdu/platform/system/lib/core/os-core-test) (`1.1.0`) for service URLs, authentication, HTTP clients, and entitlements role checks.
+End-to-end acceptance tests for the OSDU Legal service. They run with JUnit 5 and depend on [`os-core-test`](https://community.opengroup.org/osdu/platform/system/lib/core/os-core-test) (`1.2.2`) for service URLs, authentication, HTTP clients, JSON conversion, and entitlements role checks.
 
 ## Requirements
 
@@ -61,7 +61,7 @@ Provide **either** OpenID Connect client credentials **or** a pre-configured bea
 
 | name                         | value                             | description                                                                                  | required |
 |------------------------------|-----------------------------------|----------------------------------------------------------------------------------------------|----------|
-| `EXPOSE_FEATUREFLAG_ENABLED` | `true` / `false`                  | When `true`, `/info` tests assert feature flags listed in `GetInfoApiAcceptanceTests`        | no       |
+| `EXPOSE_FEATUREFLAG_ENABLED` | `true` / `false`                  | Optional override for `/info` feature-flag assertions | no       |
 | `USER_ROLES_CHECK_ENABLED`   | `true` / `false`                  | Enable JWT role verification against entitlements (default: driven by `required-roles.json`) | no       |
 | `USER_REQUIRED_ROLES_CONFIG` | ex `/path/to/required-roles.json` | Override path to the required-roles configuration file                                       | no       |
 
@@ -79,7 +79,7 @@ Roles are defined in `src/test/resources/required-roles.json` (`enabled: true`).
 
 ### Environment-specific tests
 
-- **`CronJobUpdateAcceptanceTests`** — reads country codes from `TenantConfigTestingPurpose.json` and `SecondTenantConfigTestingPurpose.json` on the classpath. Skips when those resources yield no usable codes (tenant/country setup must match your deployment).
+- **`CronJobUpdateAcceptanceTests`** — reads country codes from `TenantConfigTestingPurpose.json` and `SecondTenantConfigTestingPurpose.json` under classpath `testData/` using the shared library. Skips when those resources yield no usable codes (tenant/country setup must match your deployment).
 - **`QueryLegalTagsApiAcceptanceTests`** — requires the Legal query API to be enabled (`featureFlag.legalTagQueryApi.enabled`). Some scenarios accept HTTP `405` when the query endpoint is not exposed.
 
 ## Run tests

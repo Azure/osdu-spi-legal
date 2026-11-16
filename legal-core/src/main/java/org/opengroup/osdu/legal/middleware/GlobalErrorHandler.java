@@ -20,7 +20,7 @@ package org.opengroup.osdu.legal.middleware;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.opengroup.osdu.core.common.model.http.AppException;
-import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,8 @@ public class GlobalErrorHandler implements ErrorController {
 
   private static final Gson gson = new Gson();
 
-  @RequestMapping("/error")
+  @RequestMapping(value = "/error", method = {
+      RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.TRACE})
   public ResponseEntity<Object> handleError(final HttpServletRequest request,
                                                   final HttpServletResponse response) {
 
@@ -54,6 +55,13 @@ public class GlobalErrorHandler implements ErrorController {
       return new ResponseEntity<Object>(gson.toJson(message), HttpStatus.resolve(Integer.parseInt(statusCode.toString())));
     }
     throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Server error", "An unknown error has occurred.");
+  }
+
+  @RequestMapping(value = "/error", method = {
+      RequestMethod.POST, RequestMethod.PUT, RequestMethod.PATCH, RequestMethod.DELETE})
+  public ResponseEntity<Object> handleUnsafeMethodError(final HttpServletRequest request,
+                                                        final HttpServletResponse response) {
+    return handleError(request, response);
   }
 
     /**

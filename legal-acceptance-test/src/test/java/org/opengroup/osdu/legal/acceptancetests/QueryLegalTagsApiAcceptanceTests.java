@@ -165,6 +165,46 @@ public final class QueryLegalTagsApiAcceptanceTests extends LegalAcceptanceTests
         assertQuerySuccess(query(List.of("AgreementPartyType=enabled"), List.of("union")));
     }
 
+    @Test
+    public void should_return200_when_freeTextContainsUnmatchedParenthesis() {
+        // Previously treated as a date-range query and threw 500 on substring with missing ')'.
+        assertQuerySuccess(query("\u0001$d\u00b8E(\ud873\udfa5x"));
+    }
+
+    @Test
+    public void should_return200_when_freeTextContainsClosingParenthesisOnly() {
+        assertQuerySuccess(query("no-open-paren)"));
+    }
+
+    @Test
+    public void should_return200_when_dateBetweenQueryHasValidFromTo() {
+        assertQuerySuccess(query("(2023-01-01,2099-12-31)"));
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasInvalidDates() {
+        expectQueryError(() -> legalTagClient.query(query("(not-a-date,also-bad)"), true),
+            BAD_REQUEST_VALUES);
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasOnlyFromDate() {
+        expectQueryError(() -> legalTagClient.query(query("(2023-01-01)"), true),
+            BAD_REQUEST_VALUES);
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasEmptyFromTo() {
+        expectQueryError(() -> legalTagClient.query(query("(,)"), true),
+            BAD_REQUEST_VALUES);
+    }
+
+    @Test
+    public void should_return400_when_dateBetweenQueryHasTooManyParts() {
+        expectQueryError(() -> legalTagClient.query(query("(2023-01-01,2099-12-31,extra)"), true),
+            BAD_REQUEST_VALUES);
+    }
+
     private void assertQuerySuccess(QueryLegalTag query) {
         try {
             assertJsonResponse(legalTagClient.query(query, true), HttpStatus.SC_OK);

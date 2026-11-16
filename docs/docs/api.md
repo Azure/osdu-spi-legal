@@ -20,6 +20,16 @@ Details of our APIs including how to create and retrieve LegalTags can be found 
 
 The Data Ecosystem stores data in different data partitions, depending on the access to those data partitions in the OSDU system. A user may have access to one or more data partitions.
 
+JSON request bodies must use the types declared in the schema. Numbers, booleans, objects and arrays are not coerced to strings (for example `"contractId": 12345` is rejected with 400; send `"contractId": "12345"`). JSON strings or floats are not coerced to integers (for example `"limit": 2.5` is rejected with 400).
+
+!!! warning "Breaking change — `POST /legaltags`"
+
+    Unknown JSON properties (top-level and inside `properties`) and explicit JSON `null` for non-nullable fields now return **400**. Previously unknown fields were ignored and many nulls were accepted. See [Release notes](release-notes.md#breaking-changes-stricter-json-on-post-legaltags). Read-only `isValid` and `id` on create are ignored for client compatibility.
+
+GET `/legaltags/{name}` returns 404 as the standard AppError JSON (`code`, `reason`, `message`), not `{"error":"Not found."}`.
+
+`/_ah/liveness_check` and `/_ah/readiness_check` return HTTP 200 with an empty body. Use the status code only.
+
 ## Creating a LegalTag
 
 Any data being ingested needs a LegalTag associated with it.  You can create a LegalTag by using the POST LegalTag API e.g.
@@ -417,7 +427,9 @@ Ingestion services forward the request to the LegalTag API using the same _SAuth
 
 One of the main cases where a LegalTag can become invalid is if a contract expiration date passes. This makes both the LegalTag invalid and *all* data associated with that LegalTag including derivatives.
 
-In these situations we can update LegalTags to make them valid again and so make the associated data accessible. Currently we only allow the update of the *description*, *contract ID*, *expiration date* and *extensionProperties* properties. 
+In these situations we can update LegalTags to make them valid again and so make the associated data accessible. Currently we only allow the update of the *description*, *contract ID*, *expiration date* and *extensionProperties* properties.
+
+`PUT /legaltags` is a partial update. Only `name` is required. Omit `contractId`, `description`, `expirationDate`, or `extensionProperties` to keep the stored value. Sending JSON `null` for `expirationDate` also keeps the current date; a stored date cannot be cleared. Send a new `YYYY-MM-DD` value to change it. See [release notes](release-notes.md#breaking-change-put-legaltags-now-preserves-omitted-fields) for migration details.
 
     PUT /api/legal/v1/legaltags
 
@@ -437,8 +449,7 @@ curl --request PUT \
         "extensionProperties": {
             "anyCompanySpecificAttributes": "anyJsonTypeOfvalue"
         }
-    }
-}'
+    }'
 ```
 
 </details>

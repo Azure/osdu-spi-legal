@@ -18,11 +18,14 @@ import org.opengroup.osdu.legal.util.LegalTagUtils;
 
 import java.util.List;
 
+import static org.opengroup.osdu.core.test.util.ResponseUtil.toJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class LegalAcceptanceTests extends BaseAcceptanceTests {
+
+  private record ValidationErrors(List<String> errors) {}
 
   protected static final String DEFAULT_EXPIRATION_DATE = "2099-12-25";
   protected static final String DEFAULT_DESCRIPTION = "Acceptance test legal tag";
@@ -57,9 +60,10 @@ public abstract class LegalAcceptanceTests extends BaseAcceptanceTests {
     return assertThrows(ClientException.class, action);
   }
 
+  /** Shape for bean validation and {@code ConstraintViolationException}: reason + {@code errors[]}. */
   protected static AppError validationError(String validationMessage) {
     return new AppError(HttpStatus.SC_BAD_REQUEST, "Validation error.",
-        "{\"errors\":[\"" + validationMessage + "\"]}");
+        toJson(new ValidationErrors(List.of(validationMessage))));
   }
 
   protected void runUpdateLegalTagStatusJob() {

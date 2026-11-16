@@ -1,5 +1,6 @@
 package org.opengroup.osdu.legal.tags.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,8 @@ import java.util.Collection;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+// Jackson 3 would otherwise bind through the all-args constructor and drop the field defaults.
+@NoArgsConstructor(onConstructor_ = @JsonCreator)
 @Schema(description = "Represents a collection of invalid LegalTags.")
 public class InvalidTagsWithReason {
 

@@ -31,6 +31,34 @@ public final class CreateLegalTagApiAcceptanceTests extends LegalAcceptanceTests
     }
 
     @Test
+    public void should_return201_withPrefixedNameAtMost100_when_createNameUsesPartitionBudget() {
+        String partition = servicesConfig.getDataPartitionId();
+        int maxSuffix = 100 - partition.length() - 1;
+        org.junit.jupiter.api.Assumptions.assumeTrue(maxSuffix >= 3,
+            "Partition id leaves no room for a valid create name suffix");
+        // OpenAPI create max is 95; use the lesser of that and the partition budget.
+        String createName = "a".repeat(Math.min(95, maxSuffix));
+        HttpResponse<LegalTag> response = legalTagClient.create(createLegalTag("US", createName));
+        assertJsonResponse(response, HttpStatus.SC_CREATED);
+        String storedName = response.body().name();
+        assertEquals(partition + "-" + createName, storedName);
+        assertTrue(storedName.length() <= 100,
+            () -> "Stored name length was " + storedName.length());
+    }
+
+    @Test
+    public void should_return400_when_createNamePlusPartitionPrefixExceeds100() {
+        String partition = servicesConfig.getDataPartitionId();
+        int maxSuffix = 100 - partition.length() - 1;
+        org.junit.jupiter.api.Assumptions.assumeTrue(maxSuffix >= 3,
+            "Partition id leaves no room for a valid create name suffix");
+        String createName = "a".repeat(maxSuffix + 1);
+        ClientException exception = expectClientError(
+            () -> legalTagClient.create(createLegalTag("US", createName)));
+        assertEquals(HttpStatus.SC_BAD_REQUEST, exception.getStatusCode());
+    }
+
+    @Test
     public void should_return400_when_userHasApiAccess_ButSendsEmbargoedCOO() {
         ClientException exception = expectClientError(
             () -> legalTagClient.create(createLegalTag("SD", name)));

@@ -15,12 +15,18 @@
 package org.opengroup.osdu.legal.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.core.Ordered;
+import org.springframework.web.filter.UrlHandlerFilter;
+
 @Configuration
-public class WebConfiguration implements WebMvcConfigurer {
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-      configurer.setUseTrailingSlashMatch(true);
+public class WebConfiguration {
+    @Bean
+    public FilterRegistrationBean<UrlHandlerFilter> trailingSlashFilter() {
+        FilterRegistrationBean<UrlHandlerFilter> registration = new FilterRegistrationBean<>(
+            UrlHandlerFilter.trailingSlashHandler("/**").wrapRequest().build());
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 5);
+        return registration;
     }
 }

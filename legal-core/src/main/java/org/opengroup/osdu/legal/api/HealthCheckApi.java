@@ -1,8 +1,7 @@
 package org.opengroup.osdu.legal.api;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,18 +17,22 @@ public interface HealthCheckApi {
     @Operation(summary = "${healthCheckApi.livenessCheck.summary}",
             description = "${healthCheckApi.livenessCheck.description}", tags = {"health"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Legal service is alive", content = {@Content(schema = @Schema(implementation = String.class))})
+            @ApiResponse(responseCode = "200", description = "OK")
     })
+    // Public endpoint: empty @SecurityRequirements clears global bearer so the spec has security: [].
+    @SecurityRequirements
     @PermitAll
+    // No produces: probes often send Accept: text/plain; constraining to application/json would 406 them.
     @GetMapping("/liveness_check")
-    ResponseEntity<String> livenessCheck();
+    ResponseEntity<Void> livenessCheck();
 
     @Operation(summary = "${healthCheckApi.readinessCheck.summary}",
             description = "${healthCheckApi.readinessCheck.description}", tags = {"health"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Legal service is ready", content = {@Content(schema = @Schema(implementation = String.class))})
+            @ApiResponse(responseCode = "200", description = "OK")
     })
+    @SecurityRequirements
     @PermitAll
     @GetMapping("/readiness_check")
-    ResponseEntity<String> readinessCheck();
+    ResponseEntity<Void> readinessCheck();
 }
