@@ -1,0 +1,43 @@
+seed = 42424242424424242
+workers = 1
+continue-on-failure = true
+request-timeout = 30.0
+# Tight path/body constraints cause the generator to filter out most candidates
+# (tooling limitation, not an API defect).
+suppress-health-check = ["filter_too_much"]
+
+[generation]
+mode = "all"
+max-examples = 20
+
+[phases.stateful]
+enabled = false
+
+[phases.examples]
+enabled = true
+
+[phases.coverage]
+enabled = true
+
+[phases.fuzzing]
+enabled = true
+
+[reports.junit]
+path = "./output/junit/junit.xml"
+
+[reports.allure]
+path = "./output/allure/results"
+
+# Keep create/update fuzzing disabled until the deployed schema has been verified
+# with the generator-friendly format:date expiration schema. Examples and coverage
+# remain enabled. Track re-enabling fuzzing in
+# https://community.opengroup.org/osdu/platform/security-and-compliance/legal/-/issues/284
+[[operations]]
+include-path = "/legaltags"
+include-method = "POST"
+phases.fuzzing.enabled = false
+
+[[operations]]
+include-path = "/legaltags"
+include-method = "PUT"
+phases.fuzzing.enabled = false

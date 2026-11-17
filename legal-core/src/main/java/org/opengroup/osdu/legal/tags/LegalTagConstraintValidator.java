@@ -9,7 +9,6 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import java.security.AccessController;
 import java.util.Set;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.legal.RulesetProvider;
@@ -20,14 +19,14 @@ import org.opengroup.osdu.legal.tags.validation.OtherRelevantDataCountriesValida
 import org.opengroup.osdu.core.common.model.legal.validation.PropertiesValidator;
 import org.opengroup.osdu.core.common.model.http.RequestInfo;
 import org.springframework.stereotype.Service;
-import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
-
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class LegalTagConstraintValidator implements ConstraintValidatorFactory {
+
+    private final ConstraintValidatorFactory defaultFactory =
+        Validation.byDefaultProvider().configure().getDefaultConstraintValidatorFactory();
 
     @Inject
     protected RequestInfo requestInfo;
@@ -55,17 +54,13 @@ public class LegalTagConstraintValidator implements ConstraintValidatorFactory {
             return (T)validator;
         }
         else {
-            return run(NewInstance.action(key, "ConstraintValidator"));
+            return defaultFactory.getInstance(key);
         }
     }
 
     @Override
     public void releaseInstance(ConstraintValidator<?, ?> instance) {
-        // do nothing
-    }
-
-    private <T> T run(PrivilegedAction<T> action) {
-        return System.getSecurityManager() != null ? AccessController.doPrivileged( action ) : action.run();
+        defaultFactory.releaseInstance(instance);
     }
 
     public Validator getValidator(){

@@ -1,6 +1,6 @@
 package org.opengroup.osdu.legal.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,7 +78,7 @@ public class LegalTagStatusJobControllerTest {
         LegalTagJobResult legalTagJobResult = new LegalTagJobResult(statusChangedTags, new AboutToExpireLegalTags());
         when(legalTagStatusJob.run("projectId", dpsHeaders, "tenantName")).thenReturn(legalTagJobResult);
 
-        ResponseEntity<HttpStatus> result = sut.checkLegalTagStatusChanges();
+        ResponseEntity<Void> result = sut.checkLegalTagStatusChanges();
 
         assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
         verify(auditLogger).legalTagJobRanSuccess(any());
@@ -89,7 +89,7 @@ public class LegalTagStatusJobControllerTest {
         Exception exception = new Exception("error occurred");
         when(legalTagStatusJob.run("projectId", dpsHeaders, "tenantName")).thenThrow(exception);
 
-        ResponseEntity<HttpStatus> result = sut.checkLegalTagStatusChanges();
+        ResponseEntity<Void> result = sut.checkLegalTagStatusChanges();
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
         verify(log).error("Error running check LegalTag compliance job on tenant common", exception);

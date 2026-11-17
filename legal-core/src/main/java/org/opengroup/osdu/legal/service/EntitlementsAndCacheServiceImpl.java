@@ -1,4 +1,4 @@
-// Copyright © SLB
+// Copyright Ã‚Â© SLB
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 package org.opengroup.osdu.legal.service;
 
+import org.apache.http.HttpStatus;
 import io.lettuce.core.RedisException;
 import org.opengroup.osdu.core.common.cache.ICache;
 import org.opengroup.osdu.core.common.entitlements.IEntitlementsFactory;
@@ -33,6 +34,10 @@ public class EntitlementsAndCacheServiceImpl implements IEntitlementsExtensionSe
 
     private static final String ERROR_REASON = "Access denied";
     private static final String ERROR_MSG = "The user is not authorized to perform this action";
+    private static final String RATE_LIMIT_REASON = "Too many requests";
+    private static final String RATE_LIMIT_MSG = "The entitlements service rate limit was exceeded";
+    private static final String UNAVAILABLE_REASON = "Service unavailable";
+    private static final String UNAVAILABLE_MSG = "The entitlements service is unavailable";
 
     @Autowired
     private IEntitlementsFactory factory;
@@ -62,13 +67,33 @@ public class EntitlementsAndCacheServiceImpl implements IEntitlementsExtensionSe
             } catch (EntitlementsException e) {
                 HttpResponse response = e.getHttpResponse();
                 this.logger.error(String.format("Error requesting entitlements service %s", response));
-                throw new AppException(e.getHttpResponse().getResponseCode(), ERROR_REASON, ERROR_MSG, e);
+                throw toAppException(e, response);
             } catch (RedisException ex) {
                 this.logger.error(String.format("Error putting key %s into redis: %s", cacheKey, ex.getMessage()), ex);
             }
         }
 
         return groups;
+    }
+
+    /**
+     * Map entitlements failures without collapsing distinct client statuses into 401.
+     * {@code 401}/{@code 403} pass through; {@code 429} stays rate-limited; other 4xx
+     * (e.g. 400/404 from bad/missing auth context) still surface as 401. Downstream 5xx,
+     * timeouts ({@code responseCode == 0}) and missing responses become 503.
+     */
+    private static AppException toAppException(EntitlementsException e, HttpResponse response) {
+        int status = response == null ? 0 : response.getResponseCode();
+        if (status == HttpStatus.SC_UNAUTHORIZED || status == HttpStatus.SC_FORBIDDEN) {
+            return new AppException(status, ERROR_REASON, ERROR_MSG, e);
+        }
+        if (status == 429) {
+            return new AppException(429, RATE_LIMIT_REASON, RATE_LIMIT_MSG, e);
+        }
+        if (status >= 400 && status < 500) {
+            return new AppException(HttpStatus.SC_UNAUTHORIZED, ERROR_REASON, ERROR_MSG, e);
+        }
+        return new AppException(HttpStatus.SC_SERVICE_UNAVAILABLE, UNAVAILABLE_REASON, UNAVAILABLE_MSG, e);
     }
 
     protected static String getGroupCacheKey(DpsHeaders headers) {

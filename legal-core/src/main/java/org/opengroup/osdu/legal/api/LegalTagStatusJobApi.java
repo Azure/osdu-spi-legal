@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.opengroup.osdu.core.common.model.http.AppError;
 import org.opengroup.osdu.core.common.model.legal.ServiceConfig;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,7 @@ public interface LegalTagStatusJobApi {
     @Operation(summary = "${legalTagStatusJobApi.checkLegalTagStatusChanges.summary}", description = "${legalTagStatusJobApi.checkLegalTagStatusChanges.description}",
             security = {@SecurityRequirement(name = "Authorization")}, tags = {"legaltag-status-job"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {@Content(schema = @Schema(implementation = HttpStatus.class))}),
+            @ApiResponse(responseCode = "204", description = "LegalTag status job completed successfully."),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {@Content(schema = @Schema(implementation = AppError.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content(schema = @Schema(implementation = AppError.class))}),
             @ApiResponse(responseCode = "403", description = "User not authorized to perform the action.", content = {@Content(schema = @Schema(implementation = AppError.class))}),
@@ -32,5 +31,5 @@ public interface LegalTagStatusJobApi {
     })
     @PreAuthorize("@authorizationFilter.hasPermission('" + ServiceConfig.LEGAL_CRON + "', '" + ServiceConfig.LEGAL_ADMIN + "')")
     @GetMapping("/updateLegalTagStatus")
-    ResponseEntity<HttpStatus> checkLegalTagStatusChanges();
+    ResponseEntity<Void> checkLegalTagStatusChanges();
 }

@@ -1,5 +1,6 @@
 package org.opengroup.osdu.legal.controller;
 
+import org.opengroup.osdu.core.common.model.http.AppException;
 import com.google.common.collect.Iterables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -82,7 +83,9 @@ public class LegalTagControllerTests {
 
     @Test
     public void should_return201AndNewLegalTag_when_givenValidLegalTag() {
-        LegalTagDto legalTag = LegalTestUtils.createValidLegalTagDto("w");
+        LegalTagDto legalTagDto = LegalTestUtils.createValidLegalTagDto("w");
+        CreateLegalTag legalTag = new CreateLegalTag(
+                legalTagDto.getName(), legalTagDto.getDescription(), legalTagDto.getProperties());
 
         LegalTagDto newContracts = new LegalTagDto();
         newContracts.setName("kind1");
@@ -112,15 +115,15 @@ public class LegalTagControllerTests {
     @Test
     public void should_return404_when_givenNameThatDoesNotExist() {
         when(legalTagService.get(any(), any())).thenReturn(null);
-        ResponseEntity<LegalTagDto> result = sut.getLegalTag("k");
+        AppException exception = assertThrows(AppException.class, () -> sut.getLegalTag("k"));
 
-        assertEquals(404, result.getStatusCode().value());
-        assertNotNull(result.getBody());
+        assertEquals(404, exception.getError().getCode());
+        assertEquals("Not found.", exception.getError().getMessage());
     }
 
     @Test
     public void should_return500_when_deletingReturnsFalse() {
-        ResponseEntity<HttpStatus> result = sut.deleteLegalTag("k");
+        ResponseEntity<Void> result = sut.deleteLegalTag("k");
 
         assertEquals(500, result.getStatusCode().value());
     }
@@ -128,7 +131,7 @@ public class LegalTagControllerTests {
     @Test
     public void should_return204_when_deletingReturnsTrue() {
         when(legalTagService.delete(any(), eq("k"), any(), any())).thenReturn(true);
-        ResponseEntity<HttpStatus> result = sut.deleteLegalTag("k");
+        ResponseEntity<Void> result = sut.deleteLegalTag("k");
 
         assertEquals(204, result.getStatusCode().value());
     }
