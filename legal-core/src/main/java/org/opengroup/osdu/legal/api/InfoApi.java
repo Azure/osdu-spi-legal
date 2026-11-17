@@ -1,5 +1,6 @@
 package org.opengroup.osdu.legal.api;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,6 +21,7 @@ public interface InfoApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Version info.", content = {@Content(schema = @Schema(implementation = VersionInfo.class))})
     })
+    @SecurityRequirements
     @GetMapping(value = "/info", produces = MediaType.APPLICATION_JSON_VALUE)
     VersionInfo info() throws IOException;
 }

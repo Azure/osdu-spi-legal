@@ -1,5 +1,6 @@
 package org.opengroup.osdu.legal.controller;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,10 +20,12 @@ public class HealthCheckControllerTests {
 	@Test
 	public void should_returnHttp200_when_checkLiveness() {
 		assertEquals(HttpStatus.OK, this.sut.livenessCheck().getStatusCode());
+		assertNull(this.sut.livenessCheck().getBody());
 	}
 
 	@Test
 	public void should_returnHttp200_when_checkReadiness() {
 		assertEquals(HttpStatus.OK, this.sut.readinessCheck().getStatusCode());
+		assertNull(this.sut.readinessCheck().getBody());
 	}
 }

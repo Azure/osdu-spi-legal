@@ -40,6 +40,7 @@ nav:
   - OSDU Legal (Compliance) Service: 'index.md'
   - Ingestion Workflow: 'ingestion.md'
   - API: 'api.md'
+  - Release notes: 'release-notes.md'
   - Configuration:
       - Allow Data Ingestion from Specific Country of Origin: 'AllowDataIngestionFromCertainCOO.md'
       - Feature Flags: 'features.md'

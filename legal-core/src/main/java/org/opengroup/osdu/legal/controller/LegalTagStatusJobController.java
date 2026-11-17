@@ -1,6 +1,6 @@
 package org.opengroup.osdu.legal.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.opengroup.osdu.core.common.logging.JaxRsDpsLog;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.http.RequestInfo;
@@ -39,14 +39,15 @@ public class LegalTagStatusJobController implements LegalTagStatusJobApi {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public ResponseEntity<HttpStatus> checkLegalTagStatusChanges() {
+    public ResponseEntity<Void> checkLegalTagStatusChanges() {
         tenantStorageFactory.flushCache();
         DpsHeaders convertedHeaders = requestInfo.getHeaders();
 
         boolean result = runJob(convertedHeaders, tenantStorageFactory.getTenantInfo(convertedHeaders.getPartitionId()), legalTagStatusJob);
 
-        HttpStatus status = result ? HttpStatus.NO_CONTENT : HttpStatus.INTERNAL_SERVER_ERROR;
-        return new ResponseEntity<>(status);
+        return result
+            ? ResponseEntity.noContent().build()
+            : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     private boolean runJob(DpsHeaders convertedHeaders, TenantInfo tenantInfo, LegalTagStatusJob legalTagStatusJob) {

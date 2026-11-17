@@ -1,8 +1,8 @@
 package org.opengroup.osdu.legal.controller;
 
+import org.opengroup.osdu.core.common.model.http.AppException;
+import org.opengroup.osdu.legal.tags.dto.CreateLegalTag;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.opengroup.osdu.core.common.model.http.RequestInfo;
 import org.opengroup.osdu.core.common.model.legal.AllowedLegaltagPropertyValues;
@@ -21,8 +21,6 @@ import org.opengroup.osdu.legal.tags.dto.UpdateLegalTag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.gson.Gson;
 
 import jakarta.inject.Inject;
 import jakarta.validation.ValidationException;
@@ -48,8 +46,8 @@ public class LegalTagController implements LegalTagApi {
   }
 
   @Override
-  public ResponseEntity<LegalTagDto> createLegalTag(LegalTagDto legalTag) {
-    LegalTagDto output = legalTagService.create(legalTag, requestInfo.getTenantInfo().getName());
+  public ResponseEntity<LegalTagDto> createLegalTag(CreateLegalTag legalTag) {
+    LegalTagDto output = legalTagService.create(legalTag.toLegalTagDto(), requestInfo.getTenantInfo().getName());
     return new ResponseEntity<>(output, HttpStatus.CREATED);
   }
 
@@ -72,20 +70,20 @@ public class LegalTagController implements LegalTagApi {
   public ResponseEntity getLegalTag(String name) {
     LegalTagDto output = legalTagService.get(name, requestInfo.getTenantInfo().getName());
 
-    if (output == null) return new ResponseEntity<>(createNotFoundBody(), HttpStatus.NOT_FOUND);
-    else {
-      return new ResponseEntity<>(output, HttpStatus.OK);
+    if (output == null) {
+      throw new AppException(HttpStatus.NOT_FOUND.value(), "Resource not found.", "Not found.");
     }
+    return new ResponseEntity<>(output, HttpStatus.OK);
   }
 
   @Override
-  public ResponseEntity<HttpStatus> deleteLegalTag(String name) {
+  public ResponseEntity<Void> deleteLegalTag(String name) {
     if (legalTagService.delete(
         requestInfo.getTenantInfo().getProjectId(),
         name,
         requestInfo.getHeaders(),
-        requestInfo.getTenantInfo().getName())) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        requestInfo.getTenantInfo().getName())) return ResponseEntity.noContent().build();
+    else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
   }
 
   @Override
@@ -134,11 +132,5 @@ public class LegalTagController implements LegalTagApi {
     LegalTagDtos output =
             legalTagService.queryLegalTag(searchInput, true, requestInfo.getTenantInfo().getName());
     return new ResponseEntity<>(output, HttpStatus.OK);
-  }
-
-  private String createNotFoundBody() {
-    final Map<String, String> body = new HashMap<>();
-    body.put("error", "Not found.");
-    return new Gson().toJson(body);
   }
 }

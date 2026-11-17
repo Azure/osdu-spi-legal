@@ -1,5 +1,11 @@
 package org.opengroup.osdu.legal.tags.dto;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import java.util.Set;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.opengroup.osdu.core.common.model.legal.LegalTag;
 import org.opengroup.osdu.legal.tags.LegalTestUtils;
@@ -11,6 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LegalTagDtoTests {
+
+    private static Validator validator;
+
+    @BeforeAll
+    public static void setupValidator() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @Test
     public void should_appendWarningToDescription_when_clientConsentRequiredOnCoo() {
@@ -54,6 +68,16 @@ public class LegalTagDtoTests {
     @Test
     public void should_returnNullLegalTagDto_whenLegalTagIsNull() {
         assertNull(LegalTagDto.convertTo(null));
+    }
+
+    @Test
+    public void should_haveValidationError_when_propertiesIsNull() throws Exception {
+        LegalTagDto legalTagDto = new LegalTagDto("OSDU-Private-EHCData", "", null);
+
+        Set<ConstraintViolation<LegalTagDto>> violations = validator.validate(legalTagDto);
+
+        assertEquals(1, violations.size());
+        assertTrue(violations.stream().anyMatch(v -> "properties".equals(v.getPropertyPath().toString())));
     }
 
     @Test
