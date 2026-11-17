@@ -29,10 +29,20 @@ import com.azure.storage.blob.specialized.BlockBlobClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.google.gson.JsonParser;
 import org.junit.Assume;
 import org.opengroup.osdu.azure.util.AzureServicePrincipal;
 
 public class AzureLegalTagUtils extends LegalTagUtils {
+
+    // Error bodies are compared as JSON so property order does not matter (Jackson 3 sorts alphabetically).
+    public static void assertJsonEquals(String expected, String actual) {
+        org.junit.Assert.assertEquals(JsonParser.parseString(expected), JsonParser.parseString(actual));
+    }
+
+    public static String validationError(String detail) {
+        return "{\"code\":400,\"reason\":\"Validation error.\",\"message\":\"{\\\"errors\\\":[\\\"" + detail + "\\\"]}\"}";
+    }
     private static final String FILE_NAME = "Legal_COO.json";
     private static final String CONTAINER_NAME_AZURE = "legal-service-azure-configuration";
     private static String clientSecret = System.getProperty("AZURE_TESTER_SERVICEPRINCIPAL_SECRET", System.getenv("AZURE_TESTER_SERVICEPRINCIPAL_SECRET"));

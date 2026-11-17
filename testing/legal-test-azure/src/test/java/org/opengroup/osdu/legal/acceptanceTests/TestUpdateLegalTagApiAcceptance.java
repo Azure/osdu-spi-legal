@@ -17,7 +17,11 @@ package org.opengroup.osdu.legal.acceptanceTests;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import com.sun.jersey.api.client.ClientResponse;
 import org.opengroup.osdu.legal.util.AzureLegalTagUtils;
+
+import static org.opengroup.osdu.legal.util.AzureLegalTagUtils.assertJsonEquals;
+import static org.opengroup.osdu.legal.util.AzureLegalTagUtils.validationError;
 
 public class TestUpdateLegalTagApiAcceptance extends UpdateLegalTagApiAcceptanceTests {
 
@@ -48,4 +52,12 @@ public class TestUpdateLegalTagApiAcceptance extends UpdateLegalTagApiAcceptance
         //services are enforced to run in https on Azure
 	}
 
+    @Test
+    @Override
+    public void should_return400_when_userHasGivenInvalidExpDate() throws Exception {
+        expDate = "2010-12-31";
+        ClientResponse response = legalTagUtils.send(this.getApi(), this.getHttpMethod(), legalTagUtils.accessToken(), getBody(), getQuery());
+        assertJsonEquals(validationError("Expiration date must be a value in the future. Given 2010-12-31"),
+                legalTagUtils.getResult(response, 400, String.class));
+    }
 }
