@@ -64,7 +64,7 @@
     <lettuce.version>7.5.2.RELEASE</lettuce.version>
     <!-- lettuce-core 7.x requires Netty 4.2+.
          Stay on the patched 4.2.x line (4.2.18.Final, aligned with the other M28 services). -->
-    <netty.version>4.2.19.Final</netty.version>
+    <netty.version>4.2.21.Final</netty.version>
     <!-- Jackson 3 is the application JSON mapper. Jackson 2 still arrives transitively (swagger-core, drivers);
          jackson-core/databind 2.21.4 has HIGH CVEs fixed in 2.21.7.
          Import both Jackson BOMs ahead of spring-boot-dependencies so the whole Jackson 2 and 3 lines move. -->
