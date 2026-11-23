@@ -1,5 +1,46 @@
 # Changelog
 
+## [1.2.3](https://github.com/Azure/osdu-spi-legal/compare/v1.2.2...v1.2.3) (2026-11-23)
+
+
+### 🐛 Bug Fixes
+
+* **legal-azure:** Keep jackson property declaration order ([a48bc56](https://github.com/Azure/osdu-spi-legal/commit/a48bc56a4ebe08596ccc4eefa045ef9e43619ab0))
+* **security:** Document scoped CSRF exception ([134235a](https://github.com/Azure/osdu-spi-legal/commit/134235a78f5a5bfc3c665fa152e44b1469a7b02c))
+* **security:** Protect non-bearer Legal requests from CSRF ([3ccff36](https://github.com/Azure/osdu-spi-legal/commit/3ccff364f462730a8ba4a1cbbb02caa436b0179a))
+* Sync upstream changes from 6c449321 ([6da38fc](https://github.com/Azure/osdu-spi-legal/commit/6da38fcefb9e27aa103d15f5904c21b7963e4e8e))
+* **upstream:** Keep schemathesis-tests in upstream filter ([c4aca72](https://github.com/Azure/osdu-spi-legal/commit/c4aca729befa4f15b8b2f1e7a11293e9e1d0d27c))
+* **upstream:** Keep schemathesis-tests in upstream filter ([2235945](https://github.com/Azure/osdu-spi-legal/commit/22359459989e05473e71e2ad064d3e175fe78081))
+
+
+### 🔧 Miscellaneous
+
+* Generate filtered upstream tree ([5fe09e8](https://github.com/Azure/osdu-spi-legal/commit/5fe09e80835cebd06afc4139ffedd66493c1d904))
+* **notice:** Refresh NOTICE from Component Governance ([6fea450](https://github.com/Azure/osdu-spi-legal/commit/6fea4509e27872028bd5eb7659b971a85fd03403))
+* **notice:** Refresh NOTICE from Component Governance ([65bae88](https://github.com/Azure/osdu-spi-legal/commit/65bae883477bc122b36558749f111df75c8fe422))
+* **notice:** Refresh NOTICE from Component Governance ([4b61b08](https://github.com/Azure/osdu-spi-legal/commit/4b61b08dae541fe876dbcfb7421961f3425407e7))
+* **notice:** Refresh NOTICE from Component Governance ([1a8adb5](https://github.com/Azure/osdu-spi-legal/commit/1a8adb5fa9e6f40460c4cc43ec09c259056a7a5a))
+* Sync NOTICE and expose JaCoCo reports to Sonar ([c1b6f10](https://github.com/Azure/osdu-spi-legal/commit/c1b6f107d63dc602f3044bdd5b50a13df1ec7f7f))
+* Sync template updates ([73ea257](https://github.com/Azure/osdu-spi-legal/commit/73ea257d360131f00f1b1052b130c5818625cd85))
+* Sync template updates ([f6f7772](https://github.com/Azure/osdu-spi-legal/commit/f6f7772bc9d166f15d85b05b3a2fe9ec91f807cd))
+* **template-sync:** Sync template updates (updated 2026-11-23) ([81aa52d](https://github.com/Azure/osdu-spi-legal/commit/81aa52db103709c9487013542a40812bd0ad3d17))
+* **template-sync:** Sync template updates 2026-11-16 ([2934219](https://github.com/Azure/osdu-spi-legal/commit/2934219f465f985342feb091a2191af88f086f67))
+
+
+### 🧪 Tests
+
+* **legal-azure:** Compare error bodies as JSON in acceptance tests ([0ccb701](https://github.com/Azure/osdu-spi-legal/commit/0ccb7012f62f77abfc3ad20581f003a1538bb974))
+
+
+### 🔨 Build System
+
+* **deps:** Bump core-lib-azure to 5.0.0 and import its BOM ([42b1693](https://github.com/Azure/osdu-spi-legal/commit/42b16933ef80b3f413b2ff3ea7e54ea1ac975eb0))
+
+
+### ⚙️ Continuous Integration
+
+* Build Legal core-plus for coverage and Sonar ([7c37aaa](https://github.com/Azure/osdu-spi-legal/commit/7c37aaa3e349e5f924ae3072c95b2f21d9a41a63))
+
 ## [1.2.2](https://github.com/Azure/osdu-spi-legal/compare/v1.2.1...v1.2.2) (2026-11-06)
 
 
