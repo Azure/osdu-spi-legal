@@ -52,7 +52,7 @@
     <resilience4jVersion>1.7.1</resilience4jVersion>
     <commons-beanutils.version>1.11.0</commons-beanutils.version>
     <openapi.version>3.0.3</openapi.version>
-    <swagger-core.version>2.2.47</swagger-core.version>
+    <swagger-core.version>2.2.56</swagger-core.version>
     <guava.version>33.7.2-jre</guava.version>
     <!-- Logback 1.6.5 fixes the SiftingAppender CVE. -->
     <logback.version>1.6.5</logback.version>
