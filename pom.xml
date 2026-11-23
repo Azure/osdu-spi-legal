@@ -55,7 +55,7 @@
     <swagger-core.version>2.2.47</swagger-core.version>
     <guava.version>33.7.2-jre</guava.version>
     <!-- Logback 1.6.5 fixes the SiftingAppender CVE. -->
-    <logback.version>1.6.5</logback.version>
+    <logback.version>1.6.8</logback.version>
     <!-- Explicit dependencyManagement entries are required because this POM imports
          spring-boot-dependencies as a BOM (no spring-boot-starter-parent), so tomcat.version
          alone would not override managed versions. -->
